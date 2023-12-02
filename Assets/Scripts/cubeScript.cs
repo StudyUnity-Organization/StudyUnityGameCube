@@ -12,6 +12,8 @@ public class cubeScript : MonoBehaviour {
     public bool can = false;
 
 
+    
+
     // public float angleRotationZ = -15f;
 
     // private Rigidbody _rigidbody;
@@ -24,8 +26,9 @@ public class cubeScript : MonoBehaviour {
 
         GameOverBorders();
         if (can) {
-            cube_Move(can);
+            —ubeMove(can);
         }
+        logic.—hanging—olor();
 
     }
     void GameOverBorders() {
@@ -35,7 +38,7 @@ public class cubeScript : MonoBehaviour {
 
     }
 
-    public void cube_Move(bool can) {
+    public void —ubeMove(bool can) {
         if (can) {
             if (Input.GetKey(KeyCode.W)) {
                 //  transform.position = new Vector3(transform.position.x + speed * Time.deltaTime, transform.position.y, transform.position.z + speed * Time.deltaTime)
@@ -54,7 +57,7 @@ public class cubeScript : MonoBehaviour {
             }
             if (Input.GetKey(KeyCode.A)) {
                 //transform.position = new Vector3(transform.position.x - speed * Time.deltaTime, transform.position.y, transform.position.z + speed * Time.deltaTime);
-                rotationCubeLeftX(gameObject);
+                RotationCubeLeftX(gameObject);
                 //     transform.position = RotationX(gameObject);
 
 
@@ -62,7 +65,7 @@ public class cubeScript : MonoBehaviour {
             }
             if (Input.GetKey(KeyCode.D)) {
                 //transform.position = new Vector3(transform.position.x + speed * Time.deltaTime, transform.position.y, transform.position.z - speed * Time.deltaTime);
-                rotationCubeRightX(gameObject);
+                RotationCubeRightX(gameObject);
 
             }
         }
@@ -80,16 +83,26 @@ public class cubeScript : MonoBehaviour {
     //}
 
 
-    public void rotationCubeLeftX(GameObject cube) {
+    public void RotationCubeLeftX(GameObject cube) {
         float tiltAroundLeftX = angleRotationX * Input.GetAxis("Horizontal") * Time.deltaTime;
         Quaternion targetAngleLeftX = Quaternion.AngleAxis(tiltAroundLeftX, Vector3.up);
         transform.rotation *= targetAngleLeftX;
     }
 
-    public void rotationCubeRightX(GameObject cube) {
+    public void RotationCubeRightX(GameObject cube) {
         float angleRotationXRight = angleRotationX * -1f;
         float tiltAroundRightX = -1f * (angleRotationXRight * Input.GetAxis("Horizontal") * Time.deltaTime);
         Quaternion targetAngleRightX = Quaternion.AngleAxis(tiltAroundRightX, Vector3.up);
         transform.rotation *= targetAngleRightX;
     }
+
+    //private void OnDrawGizmos() {
+    //    Gizmos.color = Color.red;
+    //    Vector3 lookDir = this.transform.forward*3;
+    //    Gizmos.DrawLine(this.transform.position, lookDir);
+    //}
+
+    //public void —hanging—olor() {
+    //    —hanging—olorDistance
+    //}
 }

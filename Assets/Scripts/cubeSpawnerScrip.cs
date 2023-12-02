@@ -13,8 +13,8 @@ public class cubeSpawnerScrip : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other) {
-        logic.spawnCubeGeneator();
-        logic.scorePlus(1);
+        logic.SpawnCubeGeneator();
+        logic.ScorePlus(1);
         Destroy(gameObject);
     }
 }

@@ -1,19 +1,28 @@
+п»їusing Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
+using CustomMath;
+using System;
+using static UnityEngine.GraphicsBuffer;
+using TreeEditor;
 
 public class LogicScript : MonoBehaviour {
     // Start is called before the first frame update
     /// <summary>
-    //TODO добавить сохранение данных в файл. данные - это рекорд время/счет
-    //TODO добавить в UI после проигрыша счет и время + место? Ник?
+    //TODO РґРѕР±Р°РІРёС‚СЊ СЃРѕС…СЂР°РЅРµРЅРёРµ РґР°РЅРЅС‹С… РІ С„Р°Р№Р». РґР°РЅРЅС‹Рµ - СЌС‚Рѕ СЂРµРєРѕСЂРґ РІСЂРµРјСЏ/СЃС‡РµС‚
+    //TODO РґРѕР±Р°РІРёС‚СЊ РІ UI РїРѕСЃР»Рµ РїСЂРѕРёРіСЂС‹С€Р° СЃС‡РµС‚ Рё РІСЂРµРјСЏ + РјРµСЃС‚Рѕ? РќРёРє?
     /// </summary>
 
 
     public GameObject Cube;
     public GameObject CubeGenerator;
+    private GameObject CubeGeneratorClone;
 
     public cubeScript cubeScript;
     public UIScript UIScript;
+    
+    private Indicator indicatorScript;
 
     [SerializeField]
     private float minutes = 0;
@@ -33,13 +42,22 @@ public class LogicScript : MonoBehaviour {
 
 
     public bool start = false;
+    [SerializeField]
+    private bool clone = false;   
 
+    private float kDistance = 0;    
+    private float kRotation = 0;
+    [SerializeField]
+    private float angleBeetwenCubeAndCubeClone = 0;
+
+    public Vector3 direction; // Р’РµРєС‚РѕСЂ РЅР°РїСЂР°РІР»РµРЅРёСЏ РґРѕ С†РµР»Рё
 
     private void Start() {
-        spawnCubeGeneator();
+        SpawnCubeGeneator();
         UIScript.TimerPaint();
         UIScript.BestRresults();
-        cubeScript = GameObject.FindGameObjectWithTag("Cube").GetComponent<cubeScript>();
+        //      cubeScript = GameObject.FindGameObjectWithTag("Cube").GetComponent<cubeScript>();
+        indicatorScript = Indicator.IndicatorScript;
     }
 
     private void Update() {
@@ -49,20 +67,16 @@ public class LogicScript : MonoBehaviour {
     }
 
 
-    public void scorePlus(int plus) {
+    public void ScorePlus(int plus) {
         score += plus;
         // Debug.Log(score);
         UIScript.setScore(score);
     }
 
 
-    public void spawnCubeGeneator() {
-        float randomX = transform.position.x;
-        float randomY = transform.position.y;
-        float randomZ = transform.position.z;
+    public void SpawnCubeGeneator() {
 
-        Instantiate(CubeGenerator, new Vector3(UnityEngine.Random.Range(randomX_Highest, randomX_Lowest), 0, UnityEngine.Random.Range(randomZ_Highest, randomZ_Lowest)), transform.rotation);
-
+        CubeGeneratorClone = Instantiate(CubeGenerator, new Vector3(UnityEngine.Random.Range(randomX_Highest, randomX_Lowest), 0, UnityEngine.Random.Range(randomZ_Highest, randomZ_Lowest)), transform.rotation);
     }
 
     public void GameOver() {
@@ -72,9 +86,8 @@ public class LogicScript : MonoBehaviour {
 
     }
 
-    public void restartGame() {
+    public void RestartGame() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-
         Started();
     }
 
@@ -86,8 +99,47 @@ public class LogicScript : MonoBehaviour {
         cubeScript.can = start;
         // cubeScript.startPosition();
         //    TimerTick();
-
+        РЎhangingРЎolor();
     }
+
+    public void РЎhangingРЎolor() {
+        float sideLength = randomX_Highest * 2;
+        float maxDestance = sideLength * sideLength + sideLength * sideLength;       
+        float destanceForGoal = Vector3.Distance(Cube.transform.position, CubeGeneratorClone.transform.position);
+        destanceForGoal *= destanceForGoal;     
+
+        Vector3 differencePosition = CubeGeneratorClone.transform.position - Cube.transform.position;
+        direction = differencePosition;
+        differencePosition.Normalize();        
+        Vector3 forwardCube = Cube.transform.forward;  //--С‚СѓС‚ Р±С‹Р»Р° РѕС€РёР±РєР° + Cube.transform.position
+        forwardCube.Normalize();
+        float angleBeetweenZeroAndGoalFloat = Vector3D.AngleBetweenVectorsDegrees(Vector3D.ConversionVector3InVector3D(forwardCube),
+                                             Vector3D.ConversionVector3InVector3D(differencePosition)); 
+
+        kDistance = Interpolation.Remap3D(0, maxDestance, 0, 1, destanceForGoal);
+        kRotation = Interpolation.Remap3D(0, 180, 0, 1, angleBeetweenZeroAndGoalFloat);
+
+        indicatorScript.РЎhangingРЎolorDistance(kDistance, kRotation);
+    }
+
+    private void OnDrawGizmos() {
+        Gizmos.color = Color.red;       
+        Gizmos.DrawLine(Cube.transform.position, (Cube.transform.forward * 3 + Cube.transform.position));
+       
+        Gizmos.color = Color.green;
+        //Gizmos.DrawLine(Cube.transform.position, CubeGeneratorClone.transform.position);
+        Gizmos.DrawLine(Vector3.zero, CubeGeneratorClone.transform.position - Cube.transform.position);
+       
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(Vector3.zero, Cube.transform.forward * 3);
+        
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(CubeGeneratorClone.transform.position, (Cube.transform.forward * 3 + Cube.transform.position));
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(Cube.transform.position, (direction + Cube.transform.position));
+    }
+
 
 
 
