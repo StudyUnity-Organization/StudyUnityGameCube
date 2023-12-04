@@ -150,20 +150,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e67004d17e4f09d429a63c35cbfd6fb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Cube: {fileID: 1256885197}
-  CubeGenerator: {fileID: 4431642817091567598, guid: a6e68737d49759e418b6fe70c2d02842, type: 3}
-  cubeScript: {fileID: 1256885202}
+  cube: {fileID: 1256885197}
+  targetSourcePrefab: {fileID: 4431642817091567598, guid: a6e68737d49759e418b6fe70c2d02842, type: 3}
+  platform: {fileID: 295361219}
+  CubeScript: {fileID: 1256885202}
   UIScript: {fileID: 1367701951}
   minutes: 0
   seconds: 30
   score: 0
-  randomX_Highest: 25
-  randomX_Lowest: -25
-  randomZ_Highest: 25
-  randomZ_Lowest: -25
-  start: 0
+  lengthPlatform: 50
+  StartGame: 0
   clone: 0
-  angleBeetwenCubeAndCubeClone: 0
   direction: {x: 0, y: 0, z: 0}
 --- !u!4 &44581540
 Transform:
@@ -1369,10 +1366,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e8c4ff76023d77499ab7d095c527b11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  logic: {fileID: 44581539}
+  Logic: {fileID: 0}
   speed: 15
   angleRotationX: 100
-  can: 0
+  Can: 0
 --- !u!54 &1256885203
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1527,12 +1524,12 @@ MonoBehaviour:
   GameOverTEXT: {fileID: 1609454981}
   GameOverButton: {fileID: 1448056759}
   StartButton: {fileID: 610186442}
-  textScore: {fileID: 533785966}
-  textTimer: {fileID: 197977540}
-  textResult: {fileID: 2134905776}
-  textBestRresults: {fileID: 1153932183}
+  TextScore: {fileID: 533785966}
+  TextTimer: {fileID: 197977540}
+  TextResult: {fileID: 2134905776}
+  TextBestRresults: {fileID: 1153932183}
   colorText: {r: 0.1960784, g: 0.1960784, b: 0.1960784, a: 1}
-  logic: {fileID: 0}
+  Logic: {fileID: 0}
 --- !u!1 &1448056759
 GameObject:
   m_ObjectHideFlags: 0

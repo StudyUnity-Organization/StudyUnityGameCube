@@ -1,20 +1,16 @@
 using UnityEngine;
 
-public class cubeSpawnerScrip : MonoBehaviour {
+public class CubeSpawnerScrip : MonoBehaviour {
     // Start is called before the first frame update
-    public LogicScript logic;
+    public LogicScript Logic;
     void Start() {
-        logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
+        Logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
     }
 
-    // Update is called once per frame
-    void Update() {
-
-    }
 
     private void OnTriggerEnter(Collider other) {
-        logic.SpawnCubeGeneator();
-        logic.ScorePlus(1);
+        Logic.SpawnCubeGeneator();
+        Logic.ScorePlus(1);
         Destroy(gameObject);
     }
 }

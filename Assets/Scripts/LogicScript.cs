@@ -1,11 +1,11 @@
 ﻿using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
 using CustomMath;
 using System;
 using static UnityEngine.GraphicsBuffer;
 using TreeEditor;
+using Random = UnityEngine.Random;
 
 public class LogicScript : MonoBehaviour {
     // Start is called before the first frame update
@@ -14,14 +14,19 @@ public class LogicScript : MonoBehaviour {
     //TODO добавить в UI после проигрыша счет и время + место? Ник?
     /// </summary>
 
+    [SerializeField]
+    private GameObject cube;
+    [SerializeField]
+    private GameObject targetSourcePrefab;  //CubeGenerator
+    [SerializeField]
+    private GameObject platform;
 
-    public GameObject Cube;
-    public GameObject CubeGenerator;
-    private GameObject CubeGeneratorClone;
+    private GameObject targetInstance;  //CubeGeneratorClone
 
-    public cubeScript cubeScript;
+
+    public CubeScript CubeScript;
     public UIScript UIScript;
-    
+
     private Indicator indicatorScript;
 
     [SerializeField]
@@ -32,25 +37,17 @@ public class LogicScript : MonoBehaviour {
     [SerializeField]
     private int score = 0;
     [SerializeField]
-    private int randomX_Highest = 25;
-    [SerializeField]
-    private int randomX_Lowest = -25;
-    [SerializeField]
-    private int randomZ_Highest = 25;
-    [SerializeField]
-    private int randomZ_Lowest = -25;
+    private int lengthPlatform = 50;
 
-
-    public bool start = false;
+    public bool StartGame = false;
     [SerializeField]
-    private bool clone = false;   
+    private bool clone = false;
 
-    private float kDistance = 0;    
-    private float kRotation = 0;
+    private float _distanseAspect = 0;
+    private float _distanseRotation = 0;
+
     [SerializeField]
-    private float angleBeetwenCubeAndCubeClone = 0;
-
-    public Vector3 direction; // Вектор направления до цели
+    private Vector3 direction; // Вектор направления до цели
 
     private void Start() {
         SpawnCubeGeneator();
@@ -61,7 +58,9 @@ public class LogicScript : MonoBehaviour {
     }
 
     private void Update() {
-        if (start) {
+        platform.transform.localScale = new Vector3(lengthPlatform, 1, lengthPlatform);
+        platform.transform.position = new Vector3(0, -1, 0);
+        if (StartGame) {
             UIScript.TimerTick();
         }
     }
@@ -70,19 +69,19 @@ public class LogicScript : MonoBehaviour {
     public void ScorePlus(int plus) {
         score += plus;
         // Debug.Log(score);
-        UIScript.setScore(score);
+        UIScript.SetScore(score);
     }
 
 
     public void SpawnCubeGeneator() {
 
-        CubeGeneratorClone = Instantiate(CubeGenerator, new Vector3(UnityEngine.Random.Range(randomX_Highest, randomX_Lowest), 0, UnityEngine.Random.Range(randomZ_Highest, randomZ_Lowest)), transform.rotation);
+        targetInstance = Instantiate(targetSourcePrefab, new Vector3(Random.Range(lengthPlatform / 2, -lengthPlatform / 2), 0, Random.Range(lengthPlatform / 2, -lengthPlatform / 2)), transform.rotation);
     }
 
     public void GameOver() {
-        start = false;
+        StartGame = false;
         UIScript.GameOver(score);
-        cubeScript.can = start;
+        CubeScript.Can = StartGame;
 
     }
 
@@ -93,51 +92,51 @@ public class LogicScript : MonoBehaviour {
 
     public void Started() {
         score = 0;
-        UIScript.setScore(score);
+        UIScript.SetScore(score);
         UIScript.StartedGame(minutes * 60 + seconds);
-        start = true;
-        cubeScript.can = start;
+        StartGame = true;
+        CubeScript.Can = StartGame;
         // cubeScript.startPosition();
         //    TimerTick();
-        СhangingСolor();
+        ChangingColor();
     }
 
-    public void СhangingСolor() {
-        float sideLength = randomX_Highest * 2;
-        float maxDestance = sideLength * sideLength + sideLength * sideLength;       
-        float destanceForGoal = Vector3.Distance(Cube.transform.position, CubeGeneratorClone.transform.position);
-        destanceForGoal *= destanceForGoal;     
+    public void ChangingColor() {
+        float sideLength = lengthPlatform;
+        float maxDestance = sideLength * sideLength + sideLength * sideLength;
+        float destanceForGoal = Vector3.Distance(cube.transform.position, targetInstance.transform.position);
+        destanceForGoal *= destanceForGoal;
 
-        Vector3 differencePosition = CubeGeneratorClone.transform.position - Cube.transform.position;
+        Vector3 differencePosition = targetInstance.transform.position - cube.transform.position;
         direction = differencePosition;
-        differencePosition.Normalize();        
-        Vector3 forwardCube = Cube.transform.forward;  //--тут была ошибка + Cube.transform.position
+        differencePosition.Normalize();
+        Vector3 forwardCube = cube.transform.forward;  //--тут была ошибка + Cube.transform.position
         forwardCube.Normalize();
         float angleBeetweenZeroAndGoalFloat = Vector3D.AngleBetweenVectorsDegrees(Vector3D.ConversionVector3InVector3D(forwardCube),
-                                             Vector3D.ConversionVector3InVector3D(differencePosition)); 
+                                             Vector3D.ConversionVector3InVector3D(differencePosition));
 
-        kDistance = Interpolation.Remap3D(0, maxDestance, 0, 1, destanceForGoal);
-        kRotation = Interpolation.Remap3D(0, 180, 0, 1, angleBeetweenZeroAndGoalFloat);
+        _distanseAspect = Interpolation.Remap3D(0, maxDestance, 0, 1, destanceForGoal);
+        _distanseRotation = Interpolation.Remap3D(0, 180, 0, 1, angleBeetweenZeroAndGoalFloat);
 
-        indicatorScript.СhangingСolorDistance(kDistance, kRotation);
+        indicatorScript.СhangingСolorDistance(_distanseAspect, _distanseRotation);
     }
 
     private void OnDrawGizmos() {
-        Gizmos.color = Color.red;       
-        Gizmos.DrawLine(Cube.transform.position, (Cube.transform.forward * 3 + Cube.transform.position));
-       
-        Gizmos.color = Color.green;
-        //Gizmos.DrawLine(Cube.transform.position, CubeGeneratorClone.transform.position);
-        Gizmos.DrawLine(Vector3.zero, CubeGeneratorClone.transform.position - Cube.transform.position);
-       
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(Vector3.zero, Cube.transform.forward * 3);
-        
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(CubeGeneratorClone.transform.position, (Cube.transform.forward * 3 + Cube.transform.position));
+        Gizmos.DrawLine(cube.transform.position, (cube.transform.forward * 3 + cube.transform.position));
 
         Gizmos.color = Color.green;
-        Gizmos.DrawLine(Cube.transform.position, (direction + Cube.transform.position));
+        //Gizmos.DrawLine(Cube.transform.position, CubeGeneratorClone.transform.position);
+        Gizmos.DrawLine(Vector3.zero, targetInstance.transform.position - cube.transform.position);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(Vector3.zero, cube.transform.forward * 3);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(targetInstance.transform.position, (cube.transform.forward * 3 + cube.transform.position));
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(cube.transform.position, (direction + cube.transform.position));
     }
 
 
