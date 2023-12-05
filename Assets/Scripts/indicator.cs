@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Indicator : MonoBehaviour
-{
+public class Indicator : MonoBehaviour {
     // Start is called before the first frame update
     [SerializeField]
-    private Color colorHot; 
+    private Color colorHot;
     [SerializeField]
     private Color colorCold;
     [SerializeField]
@@ -22,32 +21,23 @@ public class Indicator : MonoBehaviour
 
     public static Indicator IndicatorScript => indicatorScript;
     private static Indicator indicatorScript;
-    
+
 
 
     private void Awake() {
         if (indicatorScript == null) {
             indicatorScript = this;
-        }
-        else {
+        } else {
             Destroy(this);
         }
 
     }
 
-
-    // Update is called once per frame
-    void Update()
-    {
-        //renderer—ircle.material.color = colorObject;
-    }
-
-    public void —hanging—olorDistance(float distance, float rotation) {
+    public void ChangingColorDistance(float distance, float rotation) {
         colorDistance = Color.Lerp(colorHot, colorCold, distance);
         buttonDistance.GetComponent<Image>().color = colorDistance;
         colorRot = Color.Lerp(colorHot, colorCold, rotation);
         buttonRot.GetComponent<Image>().color = colorRot;
     }
-
 
 }

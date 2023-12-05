@@ -18,9 +18,9 @@ public class UIScript : MonoBehaviour {
     private Color colorText = new Color(0.1960784f, 0.1960784f, 0.1960784f); //505050
                                                                              // Start is called before the first frame update
 
-    private int score = 0;
-    private float timesTimerAll = 0;  //счетчик времени
-    private float timesTimer = 0;  //переменная для хранения
+    private int _score = 0;
+    private float _timesTimerAll = 0;  //счетчик времени
+    private float _timesTimer = 0;  //переменная для хранения
 
     public LogicScript Logic;
 
@@ -32,20 +32,20 @@ public class UIScript : MonoBehaviour {
     public ScoreTopResult scoreTopResult;
 
     public void TimerTick() {
-        timesTimerAll = timesTimerAll - 1 * Time.deltaTime;
+        _timesTimerAll = _timesTimerAll - 1 * Time.deltaTime;
         TimerPaint();
-        if (timesTimerAll <= 0 && Logic.StartGame) {
+        if (_timesTimerAll <= 0 && Logic.StartGame) {
             Logic.GameOver();
         }
     }
 
     public void SetTimesTimerAll(float secondsAll) {
-        timesTimerAll = secondsAll;
+        _timesTimerAll = secondsAll;
     }
 
     public void SetScore(int scoreSet) {
-        score = scoreSet;
-        TextScore.text = score.ToString();
+        _score = scoreSet;
+        TextScore.text = _score.ToString();
     }
 
 
@@ -53,21 +53,17 @@ public class UIScript : MonoBehaviour {
 
 
     public void TimerPaint() {
-        TextTimer.text = ((int)(timesTimerAll / 60)).ToString() + ':' + ((int)(timesTimerAll % 60)).ToString(); 
-        // Debug.Log(timesTimerAll + "____   " + ((int)(timesTimerAll / 60)).ToString() + ':' + ((int)(timesTimerAll % 60)).ToString());
+        TextTimer.text = ((int)(_timesTimerAll / 60)).ToString() + ':' + ((int)(_timesTimerAll % 60)).ToString();
 
-        if (timesTimerAll % 60 < 10) {
-            TextTimer.text = ((int)(timesTimerAll / 60)).ToString() + ":0" + ((int)(timesTimerAll % 60)).ToString();
+        if (_timesTimerAll % 60 < 10) {
+            TextTimer.text = ((int)(_timesTimerAll / 60)).ToString() + ":0" + ((int)(_timesTimerAll % 60)).ToString();
         }
 
 
-        if (timesTimerAll <= 5f) {
+        if (_timesTimerAll <= 5f) {
             TextTimer.color = Color.red;
-        }
-        else {
+        } else {
             TextTimer.color = colorText;
-            //colorText = new Color(red, green, blue);
-            // Debug.Log("text color " + red + "  " + green + "  " + blue); // почему если присваивать переменные с цветом цвет - черный 
         }
 
     }
@@ -78,12 +74,10 @@ public class UIScript : MonoBehaviour {
         for (int i = 0; i < scoreTopResult.number.Length; i++) {
             if (scoreTopResult.time[i] < 10) {
                 result += scoreTopResult.number[i] + ". " + scoreTopResult.scoreResult[i] + "   (" + (int)(scoreTopResult.time[i] / 60f) + ":0" + (int)(scoreTopResult.time[i] % 60f) + ")\n";
-            }
-            else {
+            } else {
                 result += scoreTopResult.number[i] + ". " + scoreTopResult.scoreResult[i] + "   (" + (int)(scoreTopResult.time[i] / 60f) + ':' + (int)(scoreTopResult.time[i] % 60f) + ")\n";
             }
         }
-        //  Debug.logAssertion("result_refresh: " + result);
 
         TextBestRresults.text = result;
     }
@@ -99,10 +93,10 @@ public class UIScript : MonoBehaviour {
     }
 
     public void SearchBestResult() {
-        int score_result = score;
+        int score_result = _score;
         int score_temporary = 0;
         float time_temporary;
-        float time_temporary2 = timesTimer;
+        float time_temporary2 = _timesTimer;
 
         for (int i = 0; i < scoreTopResult.scoreResult.Length; i++) {
             if (scoreTopResult.scoreResult[i] == score_result) { break; }
@@ -114,9 +108,6 @@ public class UIScript : MonoBehaviour {
                 scoreTopResult.time[i] = time_temporary2;
                 score_result = score_temporary;
                 time_temporary2 = time_temporary;
-                //  Debug.log("score: " + score);
-                //  Debug.log("THE_BEST_res: " + scoreTopResult.scoreResult[i]);
-                //  Debug.log("TIME: " + time_temporary2);
             }
 
         }
@@ -139,18 +130,18 @@ public class UIScript : MonoBehaviour {
     }
 
     public void GameOver(int scoreWin) {
-        score = scoreWin;
+        _score = scoreWin;
         GameOverTEXT.SetActive(true);
         GameOverButton.SetActive(true);
         TextResult.gameObject.SetActive(true);
         WriteTopResultFromFiles();
-        TextResult.text = "Your result:\n " + score + " points";
+        TextResult.text = "Your result:\n " + _score + " points";
 
 
     }
 
     public void StartedGame(float secondsAll) {
-        timesTimer = secondsAll;
+        _timesTimer = secondsAll;
         SetTimesTimerAll(secondsAll);
         StartButton.SetActive(false);
         GameOverTEXT.SetActive(false);

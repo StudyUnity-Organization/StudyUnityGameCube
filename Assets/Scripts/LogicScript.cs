@@ -10,8 +10,8 @@ using Random = UnityEngine.Random;
 public class LogicScript : MonoBehaviour {
     // Start is called before the first frame update
     /// <summary>
-    //TODO добавить сохранение данных в файл. данные - это рекорд время/счет
-    //TODO добавить в UI после проигрыша счет и время + место? Ник?
+    //TODO добавить Cохранение данных в файл. данные - это рекорд время/Cчет
+    //TODO добавить в UI поCле проигрыша Cчет и время + меCто? Ник?
     /// </summary>
 
     [SerializeField]
@@ -25,7 +25,7 @@ public class LogicScript : MonoBehaviour {
 
 
     public CubeScript CubeScript;
-    public UIScript UIScript;
+    public UIScript UiScript;
 
     private Indicator indicatorScript;
 
@@ -51,8 +51,8 @@ public class LogicScript : MonoBehaviour {
 
     private void Start() {
         SpawnCubeGeneator();
-        UIScript.TimerPaint();
-        UIScript.BestRresults();
+        UiScript.TimerPaint();
+        UiScript.BestRresults();
         //      cubeScript = GameObject.FindGameObjectWithTag("Cube").GetComponent<cubeScript>();
         indicatorScript = Indicator.IndicatorScript;
     }
@@ -61,7 +61,7 @@ public class LogicScript : MonoBehaviour {
         platform.transform.localScale = new Vector3(lengthPlatform, 1, lengthPlatform);
         platform.transform.position = new Vector3(0, -1, 0);
         if (StartGame) {
-            UIScript.TimerTick();
+            UiScript.TimerTick();
         }
     }
 
@@ -69,7 +69,7 @@ public class LogicScript : MonoBehaviour {
     public void ScorePlus(int plus) {
         score += plus;
         // Debug.Log(score);
-        UIScript.SetScore(score);
+        UiScript.SetScore(score);
     }
 
 
@@ -80,7 +80,7 @@ public class LogicScript : MonoBehaviour {
 
     public void GameOver() {
         StartGame = false;
-        UIScript.GameOver(score);
+        UiScript.GameOver(score);
         CubeScript.Can = StartGame;
 
     }
@@ -92,8 +92,8 @@ public class LogicScript : MonoBehaviour {
 
     public void Started() {
         score = 0;
-        UIScript.SetScore(score);
-        UIScript.StartedGame(minutes * 60 + seconds);
+        UiScript.SetScore(score);
+        UiScript.StartedGame(minutes * 60 + seconds);
         StartGame = true;
         CubeScript.Can = StartGame;
         // cubeScript.startPosition();
@@ -118,7 +118,7 @@ public class LogicScript : MonoBehaviour {
         _distanseAspect = Interpolation.Remap3D(0, maxDestance, 0, 1, destanceForGoal);
         _distanseRotation = Interpolation.Remap3D(0, 180, 0, 1, angleBeetweenZeroAndGoalFloat);
 
-        indicatorScript.СhangingСolorDistance(_distanseAspect, _distanseRotation);
+        indicatorScript.ChangingColorDistance(_distanseAspect, _distanseRotation);
     }
 
     private void OnDrawGizmos() {

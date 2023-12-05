@@ -1,8 +1,11 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CubeScript : MonoBehaviour {
-    public LogicScript Logic;
 
+    public LogicScript Logic;
 
     [SerializeField]
     private int speed = 5;
@@ -20,7 +23,7 @@ public class CubeScript : MonoBehaviour {
 
         GameOverBorders();
         if (Can) {
-            ÑubeMove(Can);
+            CubeMove(Can);
         }
         Logic.ChangingColor();
 
@@ -31,7 +34,7 @@ public class CubeScript : MonoBehaviour {
         }
     }
 
-    public void ÑubeMove(bool can) {
+    public void CubeMove(bool can) {
         if (can) {
             if (Input.GetKey(KeyCode.W)) {
                 transform.position = new Vector3(transform.position.x + transform.forward.x * speed * Time.deltaTime,

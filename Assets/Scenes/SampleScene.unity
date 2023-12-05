@@ -154,7 +154,7 @@ MonoBehaviour:
   targetSourcePrefab: {fileID: 4431642817091567598, guid: a6e68737d49759e418b6fe70c2d02842, type: 3}
   platform: {fileID: 295361219}
   CubeScript: {fileID: 1256885202}
-  UIScript: {fileID: 1367701951}
+  UiScript: {fileID: 1367701951}
   minutes: 0
   seconds: 30
   score: 0
@@ -190,7 +190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colorHot: {r: 1, g: 0, b: 0, a: 1}
-  colorCold: {r: 0, g: 0.3156457, b: 1, a: 1}
+  colorCold: {r: 0, g: 0.50524616, b: 1, a: 1}
   colorDistance: {r: 0, g: 0, b: 0, a: 0}
   colorRot: {r: 0, g: 0, b: 0, a: 0}
   buttonDistance: {fileID: 324706793}
