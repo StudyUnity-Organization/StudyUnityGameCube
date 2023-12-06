@@ -194,8 +194,8 @@ MonoBehaviour:
   colorCold: {r: 0, g: 0.50524616, b: 1, a: 1}
   colorDistance: {r: 0, g: 0, b: 0, a: 0}
   colorRot: {r: 0, g: 0, b: 0, a: 0}
-  buttonDistance: {fileID: 324706793}
-  buttonRot: {fileID: 1785253181}
+  buttonDistanceImage: {fileID: 324706796}
+  buttonRotImage: {fileID: 1785253184}
 --- !u!114 &44581542
 MonoBehaviour:
   m_ObjectHideFlags: 0
