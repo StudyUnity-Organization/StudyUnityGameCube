@@ -213,14 +213,12 @@ MonoBehaviour:
   camThirdPersonView: {fileID: 1699446402}
   turn: {x: 0, y: 0}
   radius: 0
-  angleViewX: 30
-  angleViewY: 15
+  angleFirstViewX: 30
+  angleFirstViewY: 15
   speedRotationFirstView: 0.1
   speedRotationThirdView: 0.01
-  _xRotation: 0
-  _yRotation: 0
-  demonnstrationSpere: {x: 0, y: 0, z: 0}
-  demonnstrationDecart: {x: 0, y: 0, z: 0}
+  rotationInSpereCoordinate: {x: 0, y: 0, z: 0}
+  rotationInCartesianCoordinate: {x: 0, y: 0, z: 0}
 --- !u!1 &197977538
 GameObject:
   m_ObjectHideFlags: 0
@@ -1421,8 +1419,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Logic: {fileID: 0}
-  speed: 5
-  angleRotationX: 100
+  speed: 10
+  angleRotation: 100
   Can: 0
 --- !u!1 &1367701946
 GameObject:
