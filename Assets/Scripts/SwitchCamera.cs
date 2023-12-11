@@ -29,61 +29,49 @@ public class SwitchCamera : MonoBehaviour {
 
     private float _speedCamerRotation;
 
-    void Update() {
-        SpeedRotation();
-        if (Input.GetKeyDown(KeyCode.V)) {
-            _swich = !_swich;          
+    void Update() {       
+        if (Input.GetKeyDown(KeyCode.V)) {                 
             SwitchCameraView();
         }
         if (Input.GetKey(KeyCode.Mouse0)) {
-            _turn.x += Input.GetAxis("Mouse X") * _speedCamerRotation;
-            _turn.y += Input.GetAxis("Mouse Y") * _speedCamerRotation;
-            if (_turn.x >= 1) {
-                _turn.x = 1;
-            } else if (_turn.x <= -1) {
-                _turn.x = -1;
-            }
-            if (_turn.y >= 1) {
-                _turn.y = 1;
-            } else if (_turn.y <= -1) {
-                _turn.y = -1;
-            }
+            _turn.x = Input.GetAxis("Mouse X");
+            _turn.y = Input.GetAxis("Mouse Y");
+            RotationCamers();
         }
 
         if (Input.GetKeyUp(KeyCode.Mouse0)) {
-            if (!_swich) {
-                ThirdView.DefoltPositionThirdViewCamera(cube);
-            } else {
-                _turn.x = 0f;
-                _turn.y = 0f;
-            }
+            DefaltPosition();
         }
 
+       // RotationCamers();
+    }
+    
+    private void SwitchCameraView() {
+        _swich = !_swich;
+        camFirstPersonView.SetActive(_swich);
+        camThirdPersonView.SetActive(!_swich);
+        DefaltPosition();
+    }
+    private void DefaltPosition() {
+        if (!_swich) {
+   
+            ThirdView.DefaltPositionThirdViewCamera(cube);
+        
+        } else {
+            FirstView.FirstViweCameraRotationDefalt(cube);
+        }
+    }
+
+    private void RotationCamers() {
         if (_swich) {
             FirstView.FirstViweCameraRotation(cube, _turn.x, _turn.y);
         } else {
             ThirdView.ThirdViweCameraRotation(cube, _turn.x, _turn.y);
         }
     }
-    
-    private void SwitchCameraView() {
-        camFirstPersonView.SetActive(_swich);
-        camThirdPersonView.SetActive(!_swich);
-        if (!_swich) {       
-            ThirdView.DefoltPositionThirdViewCamera(cube);
-        } else {
-            _turn.x = 0f;
-            _turn.y = 0f;
-        }
-    }
 
-    private void SpeedRotation() {
-        if (!_swich) {
-            _speedCamerRotation = speedCamerRotationThird;
-        } else {
-            _speedCamerRotation = speedCamerRotationFirst;           
-        }
-    }
+
+
 
 
 

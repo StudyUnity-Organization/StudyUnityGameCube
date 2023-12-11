@@ -122,21 +122,25 @@ public class LogicScript : MonoBehaviour {
     }
 
     private void OnDrawGizmos() {
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(cube.transform.position, (cube.transform.forward * 3 + cube.transform.position));
+        try {
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(cube.transform.position, (cube.transform.forward * 3 + cube.transform.position));
 
-        Gizmos.color = Color.green;
-        //Gizmos.DrawLine(Cube.transform.position, CubeGeneratorClone.transform.position);
-        Gizmos.DrawLine(Vector3.zero, targetInstance.transform.position - cube.transform.position);
+            Gizmos.color = Color.green;
+            //Gizmos.DrawLine(Cube.transform.position, CubeGeneratorClone.transform.position);
+            Gizmos.DrawLine(Vector3.zero, targetInstance.transform.position - cube.transform.position);
 
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(Vector3.zero, cube.transform.forward * 3);
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(Vector3.zero, cube.transform.forward * 3);
 
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(targetInstance.transform.position, (cube.transform.forward * 3 + cube.transform.position));
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(targetInstance.transform.position, (cube.transform.forward * 3 + cube.transform.position));
 
-        Gizmos.color = Color.green;
-        Gizmos.DrawLine(cube.transform.position, (direction + cube.transform.position));
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(cube.transform.position, (direction + cube.transform.position));
+        } catch (Exception e) {
+
+        }
     }
 
 
