@@ -14,9 +14,9 @@ public class Indicator : MonoBehaviour {
     [SerializeField]
     private Color colorRot;
     [SerializeField]
-    private GameObject buttonDistance;
+    private Image buttonDistanceImage;
     [SerializeField]
-    private GameObject buttonRot;
+    private Image buttonRotImage;
 
 
     public static Indicator IndicatorScript => indicatorScript;
@@ -35,9 +35,9 @@ public class Indicator : MonoBehaviour {
 
     public void ChangingColorDistance(float distance, float rotation) {
         colorDistance = Color.Lerp(colorHot, colorCold, distance);
-        buttonDistance.GetComponent<Image>().color = colorDistance;
+        buttonDistanceImage.color = colorDistance;
         colorRot = Color.Lerp(colorHot, colorCold, rotation);
-        buttonRot.GetComponent<Image>().color = colorRot;
+        buttonRotImage.color = colorRot;
     }
 
 }

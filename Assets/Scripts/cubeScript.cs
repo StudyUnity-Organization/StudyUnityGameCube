@@ -10,7 +10,7 @@ public class CubeScript : MonoBehaviour {
     [SerializeField]
     private int speed = 5;
     [SerializeField]
-    private float angleRotationX = 15f;
+    private float angleRotation = 15f;
 
     public bool Can = false;
 
@@ -23,7 +23,7 @@ public class CubeScript : MonoBehaviour {
 
         GameOverBorders();
         if (Can) {
-            CubeMove(Can);
+            CubeMove();
         }
         Logic.ChangingColor();
 
@@ -34,40 +34,36 @@ public class CubeScript : MonoBehaviour {
         }
     }
 
-    public void CubeMove(bool can) {
-        if (can) {
+    public void CubeMove() {
+        if (Can) {
             if (Input.GetKey(KeyCode.W)) {
-                transform.position = new Vector3(transform.position.x + transform.forward.x * speed * Time.deltaTime,
-                                                 transform.position.y,
-                                                 transform.position.z + transform.forward.z * speed * Time.deltaTime);
+                DisplacementCube();
             }
             if (Input.GetKey(KeyCode.S)) {
-                transform.position = new Vector3(transform.position.x - transform.forward.x * speed * Time.deltaTime,
-                                                 transform.position.y,
-                                                 transform.position.z - transform.forward.z * speed * Time.deltaTime);
+                DisplacementCube();
             }
             if (Input.GetKey(KeyCode.A)) {
-                RotationCubeLeftX(gameObject);
+                RotationCube();
             }
             if (Input.GetKey(KeyCode.D)) {
-                RotationCubeRightX(gameObject);
+                RotationCube();
             }
-        }
+        }     
 
     }
 
 
-    public void RotationCubeLeftX(GameObject cube) {
-        float tiltAroundLeftX = angleRotationX * Input.GetAxis("Horizontal") * Time.deltaTime;
-        Quaternion targetAngleLeftX = Quaternion.AngleAxis(tiltAroundLeftX, Vector3.up);
-        cube.transform.rotation *= targetAngleLeftX;
+    public void RotationCube() {
+        float rotationCube = Input.GetAxis("Horizontal") * angleRotation * Time.deltaTime;
+        Quaternion turning = Quaternion.AngleAxis(rotationCube, Vector3.up);
+        transform.rotation *= turning;
     }
 
-    public void RotationCubeRightX(GameObject cube) {
-        float angleRotationXRight = angleRotationX * -1f;
-        float tiltAroundRightX = -1f * (angleRotationXRight * Input.GetAxis("Horizontal") * Time.deltaTime);
-        Quaternion targetAngleRightX = Quaternion.AngleAxis(tiltAroundRightX, Vector3.up);
-        cube.transform.rotation *= targetAngleRightX;
+    public void DisplacementCube() {
+        transform.position = new Vector3(transform.position.x + transform.forward.x * speed * Time.deltaTime * Input.GetAxis("Vertical"),
+                                            transform.position.y,
+                                            transform.position.z + transform.forward.z * speed * Time.deltaTime * Input.GetAxis("Vertical"));
     }
+
 
 }
