@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CubeSpawnerScrip : MonoBehaviour {
+public class CubeSpawner : MonoBehaviour {
     // Start is called before the first frame update
     public LogicScript Logic;
     void Start() {

@@ -24,7 +24,7 @@ public class LogicScript : MonoBehaviour {
     private GameObject targetInstance;  //CubeGeneratorClone
 
 
-    public CubeScript CubeScript;
+    public Cube CubeScript;
     public UIScript UiScript;
 
     private Indicator indicatorScript;

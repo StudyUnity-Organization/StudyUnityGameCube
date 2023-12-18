@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CubeScript : MonoBehaviour {
+public class Cube : MonoBehaviour {
 
     public LogicScript Logic;
 
     [SerializeField]
-    private int speed = 5; //10
+    private float speed = 5; //10       //10
     [SerializeField]
-    private float angleRotation = 15f; //100
+    private float angleRotation = 15f; //100        /100
    
     [SerializeField]
-    private int speedDisplacement = 5; //10
+    private float speedDisplacement = 5; //10       /10
     [SerializeField]
-    private float speedRotation = 15f; //20
+    private float speedRotation = 15f; //20         /200
     [SerializeField]
-    private int forceJump = 300; //300
+    private float forceJump = 300; //300            /250  + mass 10 drag 1
 
     public bool Can = false;
 
@@ -57,25 +57,7 @@ public class CubeScript : MonoBehaviour {
         }
     }
 
-    public void CubeMove() {
-        if (Can) {
-            //if (Input.GetKey(KeyCode.W)) {
-            //    DisplacementCube();
-            //}
-            //if (Input.GetKey(KeyCode.S)) {
-            //    DisplacementCube();
-            //}
-            //if (Input.GetKey(KeyCode.A)) {
-            //    RotationCube();
-            //}
-            //if (Input.GetKey(KeyCode.D)) {
-            //    RotationCube();
-            //}
-        }
-
-    }
-
-
+ 
     public void JumpCube() {
         if (Input.GetKeyDown(KeyCode.Space)) {
       //      float jumpCube = Input.GetAxis("Horizontal") * forceJump;
@@ -98,13 +80,13 @@ public class CubeScript : MonoBehaviour {
 
     //public void DisplacementCube() {
     //    float displacemenCube = Input.GetAxis("Vertical") * speedDisplacement;
-    //    _rigidbody.AddForce(displacemenCube, 0, 0, ForceMode.Impulse);
+    //    _rigidbody.AddRelativeForce(0, 0, displacemenCube, ForceMode.Impulse);
     //}
 
-    public void DisplacementCube() {    
-        transform.position = new Vector3(transform.position.x + transform.forward.x * speed * Time.deltaTime * Input.GetAxis("Vertical"),
-                                            transform.position.y,
-                                            transform.position.z + transform.forward.z * speed * Time.deltaTime * Input.GetAxis("Vertical"));
+    public void DisplacementCube() {
+        _rigidbody.position = new Vector3(transform.position.x + transform.forward.x * speed * Time.deltaTime * Input.GetAxis("Vertical"),
+                                             transform.position.y,
+                                             transform.position.z + transform.forward.z * speed * Time.deltaTime * Input.GetAxis("Vertical"));
     }
 
 
