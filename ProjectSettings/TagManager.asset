@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Logic
   - Cube
+  - Platform
+  - Wall
+  - Target
   layers:
   - Default
   - TransparentFX
@@ -13,10 +16,10 @@ TagManager:
   - Logic
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - Target
+  - Floor
+  - Wall
   - 
   - 
   - 

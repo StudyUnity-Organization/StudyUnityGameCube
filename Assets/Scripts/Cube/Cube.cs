@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Cube : MonoBehaviour {
 
-    public LogicScript Logic;
+
 
     [SerializeField]
     private float speed = 5; //10       //10
@@ -20,7 +20,7 @@ public class Cube : MonoBehaviour {
     private float forceJump = 300; //300            /250  + mass 10 drag 1
 
     public bool Can = false;
-
+    private bool _canJump = false;
 
     private Rigidbody _rigidbody;
 
@@ -30,13 +30,11 @@ public class Cube : MonoBehaviour {
     }
 
 
-    private void Start() {
-        Logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
-    }
+  
 
     private void Update() {
-        GameOverBorders();    
-        Logic.ChangingColor();
+        GameOverBorders();
+        LogicScript.Logic.ChangingColor();
         if (Can) {
            JumpCube();
         }
@@ -53,17 +51,12 @@ public class Cube : MonoBehaviour {
 
     private void GameOverBorders() {
         if (transform.position.y < -1) {
-            Logic.GameOver();
+            LogicScript.Logic.GameOver();
         }
     }
 
  
-    public void JumpCube() {
-        if (Input.GetKeyDown(KeyCode.Space)) {
-      //      float jumpCube = Input.GetAxis("Horizontal") * forceJump;
-            _rigidbody.AddForce(Vector3.up * forceJump, ForceMode.Acceleration);
-        }
-    }
+
 
 
     public void RotationCube() {
@@ -88,6 +81,43 @@ public class Cube : MonoBehaviour {
                                              transform.position.y,
                                              transform.position.z + transform.forward.z * speed * Time.deltaTime * Input.GetAxis("Vertical"));
     }
+
+    public void JumpCube() {
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            if (_canJump) {
+                //      float jumpCube = Input.GetAxis("Horizontal") * forceJump;
+                _rigidbody.AddForce(Vector3.up * forceJump, ForceMode.Acceleration);
+            }
+        }
+    }
+
+    public void JumpCan(Collision collision) {
+        string tag = collision.gameObject.tag;      
+        if (tag.Equals("Platform")) {
+            _canJump = !_canJump;
+        }
+    }
+
+    private void OnCollisionStay(Collision collision) {
+        string tag = collision.gameObject.tag;
+        if (tag.Equals("Target")) {
+            LogicScript.Logic.SpawnCubeGeneator();
+            LogicScript.Logic.ScorePlus(1);
+            Destroy(collision.gameObject);   
+        }
+
+        if (tag.Equals("Wall")) { 
+            LogicScript.Logic.GameOver();
+        }
+    }
+
+    private void OnCollisionExit(Collision collision) {
+        JumpCan(collision);
+    }
+    private void OnCollisionEnter(Collision collision) {
+        JumpCan(collision);
+    }
+
 
 
 }

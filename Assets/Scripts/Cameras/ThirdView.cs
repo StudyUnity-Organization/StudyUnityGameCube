@@ -85,7 +85,8 @@ public class ThirdVeiw : MonoBehaviour
         Quaternion rotCube = cube.transform.rotation;
         Vector3 rotCubeAngle = rotCube.ToEulerAngles() / Mathf.Deg2Rad;
         z = z - rotCubeAngle.y;
-        Debug.Log(z);
+     //   Debug.Log(z);
+
         _defaltPosition = RotationAroundSphere(x, y , z);
      //   Vector3 angleBetweenCubeAndCamer = RotationAroundSphere(0, cube.transform.rotation.y, 0);
         transform.position = _defaltPosition + cube.transform.position;

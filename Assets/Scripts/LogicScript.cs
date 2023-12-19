@@ -49,6 +49,20 @@ public class LogicScript : MonoBehaviour {
     [SerializeField]
     private Vector3 direction; // Вектор направления до цели
 
+    public static LogicScript Logic => _logicScript;
+    private static LogicScript _logicScript;
+
+
+
+    private void Awake() {
+        if (_logicScript == null) {
+            _logicScript = this;
+        } else {
+            Destroy(this);
+        }
+    }
+
+
     private void Start() {
         SpawnCubeGeneator();
         UiScript.TimerPaint();
