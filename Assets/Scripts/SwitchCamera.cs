@@ -33,13 +33,13 @@ public class SwitchCamera : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.V)) {                 
             SwitchCameraView();
         }
-        if (Input.GetKey(KeyCode.Mouse0)) {
+        if (Input.GetKey(KeyCode.Mouse1)) {
             _turn.x = Input.GetAxis("Mouse X");
             _turn.y = Input.GetAxis("Mouse Y");
             RotationCamers();
         }
 
-        if (Input.GetKeyUp(KeyCode.Mouse0)) {
+        if (Input.GetKeyUp(KeyCode.Mouse1)) {
             DefaltPosition();
         }
 
@@ -50,11 +50,11 @@ public class SwitchCamera : MonoBehaviour {
         _swich = !_swich;
         camFirstPersonView.SetActive(_swich);
         camThirdPersonView.SetActive(!_swich);
+        UI.Ui.Aim.SetActive(_swich);
         DefaltPosition();
     }
     private void DefaltPosition() {
-        if (!_swich) {
-   
+        if (!_swich) {   
             ThirdView.DefaltPositionThirdViewCamera(cube);
         
         } else {

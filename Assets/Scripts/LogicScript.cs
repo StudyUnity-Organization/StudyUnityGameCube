@@ -17,15 +17,17 @@ public class LogicScript : MonoBehaviour {
     [SerializeField]
     private GameObject cube;
     [SerializeField]
-    private GameObject targetSourcePrefab;  //CubeGenerator
+    private GameObject targetGunSourcePrefab;  //CubeGenerator
+    [SerializeField]
+    private GameObject targetPositionSourcePrefab;  //CubeGenerator
     [SerializeField]
     private GameObject platform;
 
-    private GameObject targetInstance;  //CubeGeneratorClone
+    private GameObject _targetInstance;  //CubeGeneratorClone
 
 
     public Cube CubeScript;
-    public UIScript UiScript;
+    //public UI Ui;
 
     private Indicator indicatorScript;
 
@@ -38,16 +40,17 @@ public class LogicScript : MonoBehaviour {
     private int score = 0;
     [SerializeField]
     private int lengthPlatform = 50;
-
-    public bool StartGame = false;
+  
+    public bool StartGame = false; //public потому что нужен в других скриптах
     [SerializeField]
     private bool clone = false;
+    [SerializeField]
+    private int GameMode = 2;
 
     private float _distanseAspect = 0;
     private float _distanseRotation = 0;
-
-    [SerializeField]
-    private Vector3 direction; // Вектор направления до цели
+   
+    private Vector3 _direction; // Вектор направления до цели
 
     public static LogicScript Logic => _logicScript;
     private static LogicScript _logicScript;
@@ -65,8 +68,8 @@ public class LogicScript : MonoBehaviour {
 
     private void Start() {
         SpawnCubeGeneator();
-        UiScript.TimerPaint();
-        UiScript.BestRresults();
+        UI.Ui.TimerPaint();
+        UI.Ui.BestRresults();
         //      cubeScript = GameObject.FindGameObjectWithTag("Cube").GetComponent<cubeScript>();
         indicatorScript = Indicator.IndicatorScript;
     }
@@ -75,7 +78,7 @@ public class LogicScript : MonoBehaviour {
         platform.transform.localScale = new Vector3(lengthPlatform, 1, lengthPlatform);
         platform.transform.position = new Vector3(0, -1, 0);
         if (StartGame) {
-            UiScript.TimerTick();
+            UI.Ui.TimerTick();
         }
     }
 
@@ -83,18 +86,32 @@ public class LogicScript : MonoBehaviour {
     public void ScorePlus(int plus) {
         score += plus;
         // Debug.Log(score);
-        UiScript.SetScore(score);
+        UI.Ui.SetScore(score);
     }
 
 
     public void SpawnCubeGeneator() {
 
-        targetInstance = Instantiate(targetSourcePrefab, new Vector3(Random.Range(lengthPlatform / 2, -lengthPlatform / 2), 0, Random.Range(lengthPlatform / 2, -lengthPlatform / 2)), transform.rotation);
+        if (GameMode == 1) {
+            _targetInstance = Instantiate(targetPositionSourcePrefab, new Vector3(Random.Range(lengthPlatform / 2, -lengthPlatform / 2), 0, Random.Range(lengthPlatform / 2, -lengthPlatform / 2)), transform.rotation);
+        }
+        if (GameMode == 2) {
+            _targetInstance = Instantiate(targetGunSourcePrefab, new Vector3(Random.Range(lengthPlatform / 2, -lengthPlatform / 2), 0, Random.Range(lengthPlatform / 2, -lengthPlatform / 2)), transform.rotation);
+        }
+        if (GameMode == 3) {
+            int random = Random.Range(0, 100);
+            if (random % 2 == 0) {
+                _targetInstance = Instantiate(targetPositionSourcePrefab, new Vector3(Random.Range(lengthPlatform / 2, -lengthPlatform / 2), 0, Random.Range(lengthPlatform / 2, -lengthPlatform / 2)), transform.rotation);
+            } else {
+                _targetInstance = Instantiate(targetGunSourcePrefab, new Vector3(Random.Range(lengthPlatform / 2, -lengthPlatform / 2), 0, Random.Range(lengthPlatform / 2, -lengthPlatform / 2)), transform.rotation);
+            }
+        }
+
     }
 
     public void GameOver() {
         StartGame = false;
-        UiScript.GameOver(score);
+        UI.Ui.GameOver(score);
         CubeScript.Can = StartGame;
 
     }
@@ -106,8 +123,8 @@ public class LogicScript : MonoBehaviour {
 
     public void Started() {
         score = 0;
-        UiScript.SetScore(score);
-        UiScript.StartedGame(minutes * 60 + seconds);
+        UI.Ui.SetScore(score);
+        UI.Ui.StartedGame(minutes * 60 + seconds);
         StartGame = true;
         CubeScript.Can = StartGame;
         // cubeScript.startPosition();
@@ -118,11 +135,11 @@ public class LogicScript : MonoBehaviour {
     public void ChangingColor() {
         float sideLength = lengthPlatform;
         float maxDestance = sideLength * sideLength + sideLength * sideLength;
-        float destanceForGoal = Vector3.Distance(cube.transform.position, targetInstance.transform.position);
+        float destanceForGoal = Vector3.Distance(cube.transform.position, _targetInstance.transform.position);
         destanceForGoal *= destanceForGoal;
 
-        Vector3 differencePosition = targetInstance.transform.position - cube.transform.position;
-        direction = differencePosition;
+        Vector3 differencePosition = _targetInstance.transform.position - cube.transform.position;
+        _direction = differencePosition;
         differencePosition.Normalize();
         Vector3 forwardCube = cube.transform.forward;  //--тут была ошибка + Cube.transform.position
         forwardCube.Normalize();
@@ -134,24 +151,24 @@ public class LogicScript : MonoBehaviour {
 
         indicatorScript.ChangingColorDistance(_distanseAspect, _distanseRotation);
     }
-
-    private void OnDrawGizmos() {
+    
+    private void OnDrawGizmosSelected() {
         try {
             Gizmos.color = Color.red;
             Gizmos.DrawLine(cube.transform.position, (cube.transform.forward * 3 + cube.transform.position));
 
             Gizmos.color = Color.green;
             //Gizmos.DrawLine(Cube.transform.position, CubeGeneratorClone.transform.position);
-            Gizmos.DrawLine(Vector3.zero, targetInstance.transform.position - cube.transform.position);
+            Gizmos.DrawLine(Vector3.zero, _targetInstance.transform.position - cube.transform.position);
 
             Gizmos.color = Color.red;
             Gizmos.DrawLine(Vector3.zero, cube.transform.forward * 3);
 
             Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(targetInstance.transform.position, (cube.transform.forward * 3 + cube.transform.position));
+            Gizmos.DrawLine(_targetInstance.transform.position, (cube.transform.forward * 3 + cube.transform.position));
 
             Gizmos.color = Color.green;
-            Gizmos.DrawLine(cube.transform.position, (direction + cube.transform.position));
+            Gizmos.DrawLine(cube.transform.position, (_direction + cube.transform.position));
         } catch (Exception e) {
 
         }

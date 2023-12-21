@@ -51,6 +51,8 @@ public class FirstView : MonoBehaviour
         _yRotation = Interpolation.Remap3D(0, 1, 0, angleFirstViewX, _turnX);
         camFirstPersonView.transform.rotation = Quaternion.Euler(_xRotation, _yRotation, 0) * cubeRotation;
         camFirstPersonView.transform.position = cube.transform.position;
+
+     
     }
 
 }

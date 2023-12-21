@@ -9,6 +9,7 @@ TagManager:
   - Platform
   - Wall
   - Target
+  - TargetGun
   layers:
   - Default
   - TransparentFX

@@ -91,33 +91,33 @@ public class Cube : MonoBehaviour {
         }
     }
 
-    public void JumpCan(Collision collision) {
-        string tag = collision.gameObject.tag;      
+    public void JumpCan(string tag) {     
         if (tag.Equals("Platform")) {
             _canJump = !_canJump;
         }
     }
 
-    private void OnCollisionStay(Collision collision) {
+    private void OnCollisionExit(Collision collision) {
         string tag = collision.gameObject.tag;
-        if (tag.Equals("Target")) {
-            LogicScript.Logic.SpawnCubeGeneator();
-            LogicScript.Logic.ScorePlus(1);
-            Destroy(collision.gameObject);   
-        }
+        JumpCan(tag);
+    }
 
-        if (tag.Equals("Wall")) { 
+    private void OnCollisionEnter(Collision collision) {
+        string tag = collision.gameObject.tag;
+        JumpCan(tag);
+
+        if (tag.Equals("Wall")) {
             LogicScript.Logic.GameOver();
         }
     }
 
-    private void OnCollisionExit(Collision collision) {
-        JumpCan(collision);
+    private void OnTriggerEnter(Collider other) {
+        string tag = other.gameObject.tag;
+        if (tag.Equals("Target")) {
+            LogicScript.Logic.SpawnCubeGeneator();
+            LogicScript.Logic.ScorePlus(1);
+            Destroy(other.gameObject);
+        }
     }
-    private void OnCollisionEnter(Collision collision) {
-        JumpCan(collision);
-    }
-
-
 
 }

@@ -44,7 +44,6 @@ public class ThirdVeiw : MonoBehaviour
         _defaltXRotation = rotationInCartesianCoordinate.y;
         _defaltYRotation = rotationInCartesianCoordinate.z;
         ThirdViweCameraRotationDefalt(cube, rotationInCartesianCoordinate);
-  
     }
 
 

@@ -2,11 +2,12 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIScript : MonoBehaviour {
+public class UI : MonoBehaviour {
 
     public GameObject GameOverTEXT;
     public GameObject GameOverButton;
     public GameObject StartButton;
+    public GameObject Aim;
 
     public Text TextScore;
     public Text TextTimer;
@@ -24,6 +25,19 @@ public class UIScript : MonoBehaviour {
 
     public LogicScript Logic;
 
+
+    public static UI Ui => _ui;
+    private static UI _ui;
+
+
+
+    private void Awake() {
+        if (_ui == null) {
+            _ui = this;
+        } else {
+            Destroy(this);
+        }
+    }
 
     void Start() {
         Logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
@@ -136,6 +150,8 @@ public class UIScript : MonoBehaviour {
         TextResult.gameObject.SetActive(true);
         WriteTopResultFromFiles();
         TextResult.text = "Your result:\n " + _score + " points";
+        Aim.SetActive(false);
+
 
 
     }
@@ -147,6 +163,7 @@ public class UIScript : MonoBehaviour {
         GameOverTEXT.SetActive(false);
         GameOverButton.SetActive(false);
         TextResult.gameObject.SetActive(false);
+        Aim.SetActive(true);
         //    TimerTick();
 
     }
