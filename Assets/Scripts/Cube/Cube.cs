@@ -24,10 +24,22 @@ public class Cube : MonoBehaviour {
 
     private Rigidbody _rigidbody;
 
+
+    public static Cube CubeScript => _cubeScript;
+    private static Cube _cubeScript;
+
+
+
     private void Awake() {
+        if (_cubeScript == null) {
+            _cubeScript = this;
+        } else {
+            Destroy(this);
+        }
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.maxAngularVelocity = Mathf.Infinity;
     }
+
 
 
   
@@ -71,16 +83,16 @@ public class Cube : MonoBehaviour {
 
 
 
-    //public void DisplacementCube() {
-    //    float displacemenCube = Input.GetAxis("Vertical") * speedDisplacement;
-    //    _rigidbody.AddRelativeForce(0, 0, displacemenCube, ForceMode.Impulse);
-    //}
-
     public void DisplacementCube() {
-        _rigidbody.position = new Vector3(transform.position.x + transform.forward.x * speed * Time.deltaTime * Input.GetAxis("Vertical"),
-                                             transform.position.y,
-                                             transform.position.z + transform.forward.z * speed * Time.deltaTime * Input.GetAxis("Vertical"));
+        float displacemenCube = Input.GetAxis("Vertical") * speedDisplacement;
+        _rigidbody.AddRelativeForce(0, 0, displacemenCube, ForceMode.Impulse);
     }
+
+    //public void DisplacementCube() {
+    //    _rigidbody.position = new Vector3(transform.position.x + transform.forward.x * speed * Time.deltaTime * Input.GetAxis("Vertical"),
+    //                                         transform.position.y,
+    //                                         transform.position.z + transform.forward.z * speed * Time.deltaTime * Input.GetAxis("Vertical"));
+    //}
 
     public void JumpCube() {
         if (Input.GetKeyDown(KeyCode.Space)) {

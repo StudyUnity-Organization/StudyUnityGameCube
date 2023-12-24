@@ -155,6 +155,7 @@ MonoBehaviour:
   cube: {fileID: 1256885197}
   targetGunSourcePrefab: {fileID: 8005579724642834262, guid: 6b666397ec0a72343b3be508d21020bb, type: 3}
   targetPositionSourcePrefab: {fileID: 4431642817091567598, guid: a6e68737d49759e418b6fe70c2d02842, type: 3}
+  trapSourcePrefab: {fileID: 1772336056313727010, guid: 98f9e143d44827146a8afb9c97547e9b, type: 3}
   platform: {fileID: 295361219}
   CubeScript: {fileID: 1256885204}
   minutes: 10
@@ -1392,7 +1393,7 @@ GameObject:
   - component: {fileID: 1256885204}
   m_Layer: 6
   m_Name: Cube
-  m_TagString: Cube
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1526,7 +1527,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   angleRotation: 100
-  speedDisplacement: 10
+  speedDisplacement: 5
   speedRotation: 200
   forceJump: 250
   Can: 0
