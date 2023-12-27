@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,7 +11,7 @@ public class Cube : MonoBehaviour {
     private float speed = 5; //10       //10
     [SerializeField]
     private float angleRotation = 15f; //100        /100
-   
+
     [SerializeField]
     private float speedDisplacement = 5; //10       /10
     [SerializeField]
@@ -42,17 +42,17 @@ public class Cube : MonoBehaviour {
 
 
 
-  
+
 
     private void Update() {
         GameOverBorders();
         LogicScript.Logic.ChangingColor();
         if (Can) {
-           JumpCube();
+            JumpCube();
         }
     }
 
-    private void FixedUpdate() {        
+    private void FixedUpdate() {
         if (Can) {
             DisplacementCube();
             RotationCube();
@@ -67,13 +67,13 @@ public class Cube : MonoBehaviour {
         }
     }
 
- 
+
 
 
 
     public void RotationCube() {
         float rotationCube = Input.GetAxis("Horizontal") * speedRotation;
-        _rigidbody.AddTorque(0, rotationCube, 0);  
+        _rigidbody.AddTorque(0, rotationCube, 0);
     }
     //public void RotationCube() {
     //    float rotationCube = Input.GetAxis("Horizontal") * angleRotation * Time.deltaTime;
@@ -103,7 +103,7 @@ public class Cube : MonoBehaviour {
         }
     }
 
-    public void JumpCan(string tag) {     
+    public void JumpCan(string tag) {
         if (tag.Equals("Platform")) {
             _canJump = !_canJump;
         }

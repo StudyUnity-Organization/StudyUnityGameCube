@@ -1,12 +1,11 @@
-using System.Collections;
+п»їusing System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UIElements;
 using static UnityEditor.U2D.ScriptablePacker;
 
-public class TargetTrap : MonoBehaviour
-{
+public class TargetTrap : MonoBehaviour {
     [SerializeField]
     private GameObject shereEndPrefab;
     [SerializeField]
@@ -24,13 +23,13 @@ public class TargetTrap : MonoBehaviour
     private float rechargeTime = 2;
 
     private bool _trapRecharge = false;
-    private bool _trapWorked = false;
+    private bool _trapIsActive = false;
 
     private RaycastHit _hit;
     // Start is called before the first frame update
 
 
-   
+
     public LayerMask LayerMask;
     public Vector3 origin;
 
@@ -41,18 +40,17 @@ public class TargetTrap : MonoBehaviour
     private float _globalSeconds = 0;
     private float _sumRechargeAndDreezSeconds = 0;
     private bool _timerStart = false;
-    void Start()
-    {
-        CreateEndPointTrap(); //создаем конечную точку ловушки
+    private void Start() {
+        CreateEndPointTrap(); //СЃРѕР·РґР°РµРј РєРѕРЅРµС‡РЅСѓСЋ С‚РѕС‡РєСѓ Р»РѕРІСѓС€РєРё
     }
 
     // Update is called once per frame
-    void Update() {
-   //     TargetRecognition(); //
+    private void Update() {
+        //     TargetRecognition(); //
         TimerTrap();
     }
     private void FixedUpdate() {
-        TargetRecognition();  //проверка попадания в ловушку
+        TargetRecognition();  //РїСЂРѕРІРµСЂРєР° РїРѕРїР°РґР°РЅРёСЏ РІ Р»РѕРІСѓС€РєСѓ
     }
 
     private void CreateEndPointTrap() {
@@ -68,7 +66,7 @@ public class TargetTrap : MonoBehaviour
     }
 
     private Vector3 GenerationEndPointTrap() {
-        //генирирует рандомную точку конца ловушки     
+        //РіРµРЅРёСЂРёСЂСѓРµС‚ СЂР°РЅРґРѕРјРЅСѓСЋ С‚РѕС‡РєСѓ РєРѕРЅС†Р° Р»РѕРІСѓС€РєРё     
         Vector3 end = new Vector3(Random.Range(-maxRangeDistanceTrapActive, +maxRangeDistanceTrapActive),
                          0,
                          Random.Range(-maxRangeDistanceTrapActive, +maxRangeDistanceTrapActive));
@@ -78,24 +76,22 @@ public class TargetTrap : MonoBehaviour
     }
 
 
-
     private void TargetRecognition() {
-       
-        Ray ray = new Ray(transform.position, _endPointOfTrap - transform.position);      
+
+        Ray ray = new Ray(transform.position, _endPointOfTrap - transform.position);
         Debug.DrawRay(transform.position, _endPointOfTrap - transform.position, Color.yellow);
 
-        if (!_trapWorked) {
-        if (Physics.SphereCast(ray, radius, out _hit, _maxDistance)) {
-            if (_hit.collider.gameObject.CompareTag("Player")) {  
-                    _trapWorked = true;
-                     _globalSeconds = freezTime+ rechargeTime;
+        if (!_trapIsActive) {
+            if (Physics.SphereCast(ray, radius, out _hit, _maxDistance)) {
+                if (_hit.collider.gameObject.CompareTag("Player")) {
+                    _trapIsActive = true;
+                    _globalSeconds = freezTime + rechargeTime;
                     _sumRechargeAndDreezSeconds = _globalSeconds;
                     TimerTrap();
                 }
             }
         }
     }
-   
 
 
     private bool CheckingGoingAbroad(Vector3 vector, float distance) {
@@ -109,23 +105,21 @@ public class TargetTrap : MonoBehaviour
         return false;
     }
 
-   
-
 
     public void TimerTrap() {
-        if (_trapWorked) {
+        if (_trapIsActive) {
             TrapHasWorked(_globalSeconds);
             _globalSeconds = _globalSeconds - 1 * Time.deltaTime;
         }
     }
 
     private void TrapHasWorked(float seconds) {
-        if (seconds <= 0) { 
-            _trapWorked = false;
-            Cube.CubeScript.Can = true; 
+        if (seconds <= 0) {
+            _trapIsActive = false;
+            Cube.CubeScript.Can = true;
         }
-        
-        if (seconds >= _sumRechargeAndDreezSeconds - freezTime) {          
+
+        if (seconds >= _sumRechargeAndDreezSeconds - freezTime) {
             Cube.CubeScript.Can = false;
         } else {
             Cube.CubeScript.Can = true;

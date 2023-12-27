@@ -132,7 +132,6 @@ GameObject:
   - component: {fileID: 44581539}
   - component: {fileID: 44581541}
   - component: {fileID: 44581542}
-  - component: {fileID: 44581543}
   m_Layer: 0
   m_Name: Logic Manager
   m_TagString: Logic
@@ -165,6 +164,8 @@ MonoBehaviour:
   StartGame: 0
   clone: 0
   GameMode: 2
+  minCountTraps: 5
+  maxCountTraps: 10
 --- !u!4 &44581540
 Transform:
   m_ObjectHideFlags: 0
@@ -217,24 +218,6 @@ MonoBehaviour:
   camThirdPersonView: {fileID: 1699446402}
   speedCamerRotationFirst: 0.1
   speedCamerRotationThird: 0.01
---- !u!114 &44581543
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 44581538}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1adb9301e46f3fa41b945c3b156de121, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Cube: {fileID: 1256885197}
-  Bullet: {fileID: 2553540967022745357, guid: 669da3d8905538e4eb42fd60b3b41bb2, type: 3}
-  Power: 10
-  SpriteBlack: {fileID: 21300000, guid: 170bd3aabf5c1fb40b881b8e09102b0f, type: 3}
-  SpriteRed: {fileID: 21300000, guid: a6124a14db00a9140b9689656b80e0e7, type: 3}
-  SpriteGreen: {fileID: 21300000, guid: a6a76899b6a43bb459eb3e464614cd57, type: 3}
 --- !u!1 &110320587
 GameObject:
   m_ObjectHideFlags: 0
@@ -1391,6 +1374,7 @@ GameObject:
   - component: {fileID: 1256885198}
   - component: {fileID: 1256885203}
   - component: {fileID: 1256885204}
+  - component: {fileID: 1256885205}
   m_Layer: 6
   m_Name: Cube
   m_TagString: Player
@@ -1531,6 +1515,20 @@ MonoBehaviour:
   speedRotation: 200
   forceJump: 250
   Can: 0
+--- !u!114 &1256885205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1256885197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adb9301e46f3fa41b945c3b156de121, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bullet: {fileID: 2553540967022745357, guid: 669da3d8905538e4eb42fd60b3b41bb2, type: 3}
+  power: 10
 --- !u!1 &1350380989
 GameObject:
   m_ObjectHideFlags: 0
@@ -1581,14 +1579,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e0707131da1be9a438a0aba2445c4c67, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dbbb63a92cae21f47ae4f833c0e3f37b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1740,7 +1738,6 @@ MonoBehaviour:
   TextResult: {fileID: 2134905776}
   TextBestRresults: {fileID: 1153932183}
   colorText: {r: 0.1960784, g: 0.1960784, b: 0.1960784, a: 1}
-  Logic: {fileID: 0}
 --- !u!1 &1448056759
 GameObject:
   m_ObjectHideFlags: 0

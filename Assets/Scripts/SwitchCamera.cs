@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -24,13 +24,13 @@ public class SwitchCamera : MonoBehaviour {
     [SerializeField]
     private float speedCamerRotationThird = 0.01f;
 
-    private Vector2 _turn;    
+    private Vector2 _turn;
     private bool _swich = true;
 
     private float _speedCamerRotation;
 
-    void Update() {       
-        if (Input.GetKeyDown(KeyCode.V)) {                 
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.V)) {
             SwitchCameraView();
         }
         if (Input.GetKey(KeyCode.Mouse1)) {
@@ -43,9 +43,9 @@ public class SwitchCamera : MonoBehaviour {
             DefaltPosition();
         }
 
-       // RotationCamers();
+        // RotationCamers();
     }
-    
+
     private void SwitchCameraView() {
         _swich = !_swich;
         camFirstPersonView.SetActive(_swich);
@@ -54,9 +54,9 @@ public class SwitchCamera : MonoBehaviour {
         DefaltPosition();
     }
     private void DefaltPosition() {
-        if (!_swich) {   
+        if (!_swich) {
             ThirdView.DefaltPositionThirdViewCamera(cube);
-        
+
         } else {
             FirstView.FirstViweCameraRotationDefalt(cube);
         }

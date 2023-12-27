@@ -4,7 +4,7 @@ public class CubeSpawner : MonoBehaviour {
     // Start is called before the first frame update
     //public LogicScript Logic;
     void Start() {
-       // Logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
+        // Logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
     }
 
 

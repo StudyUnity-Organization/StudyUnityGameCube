@@ -1,4 +1,4 @@
-using System.IO;
+ï»¿using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,10 +20,12 @@ public class UI : MonoBehaviour {
                                                                              // Start is called before the first frame update
 
     private int _score = 0;
-    private float _timesTimerAll = 0;  //ñ÷åò÷èê âðåìåíè
-    private float _timesTimer = 0;  //ïåðåìåííàÿ äëÿ õðàíåíèÿ
+    private float _timesTimerAll = 0;  //ÑÑ‡ÐµÑ‚Ñ‡Ð¸Ðº Ð²Ñ€ÐµÐ¼ÐµÐ½Ð¸
+    private float _timesTimer = 0;  //Ð¿ÐµÑ€ÐµÐ¼ÐµÐ½Ð½Ð°Ñ Ð´Ð»Ñ Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¸Ñ
 
-    public LogicScript Logic;
+    //   public Logic.LogicScript Logic.Logic;
+
+    private Image _aimImage;
 
 
     public static UI Ui => _ui;
@@ -39,8 +41,9 @@ public class UI : MonoBehaviour {
         }
     }
 
-    void Start() {
-        Logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
+    private void Start() {
+        // Debug.Log("Sprite _____ " + UI.Ui.Aim.GetComponent<Image>().sprite.name);
+        _aimImage = UI.Ui.Aim.GetComponent<Image>();
     }
 
     public ScoreTopResult scoreTopResult;
@@ -48,8 +51,8 @@ public class UI : MonoBehaviour {
     public void TimerTick() {
         _timesTimerAll = _timesTimerAll - 1 * Time.deltaTime;
         TimerPaint();
-        if (_timesTimerAll <= 0 && Logic.StartGame) {
-            Logic.GameOver();
+        if (_timesTimerAll <= 0 && LogicScript.Logic.StartGame) {
+            LogicScript.Logic.GameOver();
         }
     }
 
@@ -166,5 +169,14 @@ public class UI : MonoBehaviour {
         Aim.SetActive(true);
         //    TimerTick();
 
+    }
+
+
+    public void HandleTarget(bool aimed) {
+        if (aimed) {
+            _aimImage.color = Color.green;
+        } else {
+            _aimImage.color = Color.black;
+        }
     }
 }

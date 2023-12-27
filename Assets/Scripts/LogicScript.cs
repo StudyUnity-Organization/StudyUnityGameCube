@@ -40,9 +40,9 @@ public class LogicScript : MonoBehaviour {
 
     [SerializeField]
     private int score = 0;
-   
+
     public int lengthPlatform = 50; //public - потому что беру в скрипте с ловушкой
-  
+
     public bool StartGame = false; //public потому что нужен в других скриптах
     [SerializeField]
     private bool clone = false;
@@ -56,7 +56,7 @@ public class LogicScript : MonoBehaviour {
 
     private float _distanseAspect = 0;
     private float _distanseRotation = 0;
-   
+
     private Vector3 _direction; // Вектор направления до цели
 
     public static LogicScript Logic => _logicScript;
@@ -114,7 +114,7 @@ public class LogicScript : MonoBehaviour {
                 _targetInstance = Instantiate(targetGunSourcePrefab, new Vector3(Random.Range(lengthPlatform / 2, -lengthPlatform / 2), 0, Random.Range(lengthPlatform / 2, -lengthPlatform / 2)), transform.rotation);
             }
         }
-     
+
         //_targetInstance = Instantiate(trapSourcePrefab, new Vector3(Random.Range(lengthPlatform / 2, -lengthPlatform / 2), 0, Random.Range(lengthPlatform / 2, -lengthPlatform / 2)), transform.rotation);
     }
 
@@ -163,12 +163,12 @@ public class LogicScript : MonoBehaviour {
 
     private void GeneratorTraps() {
         int countTrap = Random.Range(minCountTraps, maxCountTraps);
-        for(int i = 0; i < countTrap; i++) {
+        for (int i = 0; i < countTrap; i++) {
             Instantiate(trapSourcePrefab, new Vector3(Random.Range(lengthPlatform / 2, -lengthPlatform / 2), 0, Random.Range(lengthPlatform / 2, -lengthPlatform / 2)), transform.rotation);
         }
     }
 
-    
+
     private void OnDrawGizmosSelected() {
         try {
             Gizmos.color = Color.red;
