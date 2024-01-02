@@ -40,6 +40,9 @@ public class TargetTrap : MonoBehaviour {
     private float _globalSeconds = 0;
     private float _sumRechargeAndDreezSeconds = 0;
     private bool _timerStart = false;
+
+    private IEnumerator _coroutineBlocked;
+    private IEnumerator _coroutineDecontamination;
     private void Start() {
         CreateEndPointTrap(); //создаем конечную точку ловушки
     }
@@ -47,7 +50,7 @@ public class TargetTrap : MonoBehaviour {
     // Update is called once per frame
     private void Update() {
         //     TargetRecognition(); //
-        TimerTrap();
+     //   TimerTrap();
     }
     private void FixedUpdate() {
         TargetRecognition();  //проверка попадания в ловушку
@@ -84,15 +87,46 @@ public class TargetTrap : MonoBehaviour {
         if (!_trapIsActive) {
             if (Physics.SphereCast(ray, radius, out _hit, _maxDistance)) {
                 if (_hit.collider.gameObject.CompareTag("Player")) {
+                    TrapHasWorked(1f);
+
                     _trapIsActive = true;
-                    _globalSeconds = freezTime + rechargeTime;
-                    _sumRechargeAndDreezSeconds = _globalSeconds;
-                    TimerTrap();
+                    //_globalSeconds = freezTime + rechargeTime;
+                    //_sumRechargeAndDreezSeconds = _globalSeconds;
+                    //TimerTrap();
                 }
             }
         }
     }
 
+    
+
+        
+        // every 2 seconds perform the print()
+    private void TrapHasWorked(float a) {
+
+        _coroutineBlocked = BlockingMovement(2.0f);
+        StartCoroutine(_coroutineBlocked);
+
+        _coroutineDecontamination = DecontaminationTrap(4.0f);
+        StartCoroutine(_coroutineDecontamination);
+    }
+    private IEnumerator BlockingMovement(float waitTime) {
+        Cube.CubeScript.Can = false;
+        while (true) {
+            yield return new WaitForSeconds(waitTime);
+            Cube.CubeScript.Can = true;
+            StopCoroutine(_coroutineBlocked);
+        }
+    }
+
+    private IEnumerator DecontaminationTrap(float waitTime) {
+        while (true) {
+            yield return new WaitForSeconds(waitTime);
+            _trapIsActive = false;
+            StopCoroutine(_coroutineDecontamination);
+        }
+      
+    }    
 
     private bool CheckingGoingAbroad(Vector3 vector, float distance) {
         if (-distance <= vector.x && vector.x <= distance) {
@@ -113,19 +147,19 @@ public class TargetTrap : MonoBehaviour {
         }
     }
 
-    private void TrapHasWorked(float seconds) {
-        if (seconds <= 0) {
-            _trapIsActive = false;
-            Cube.CubeScript.Can = true;
-        }
+    //private void TrapHasWorked(float seconds) {
+    //    if (seconds <= 0) {
+    //        _trapIsActive = false;
+    //        Cube.CubeScript.Can = true;
+    //    }
 
-        if (seconds >= _sumRechargeAndDreezSeconds - freezTime) {
-            Cube.CubeScript.Can = false;
-        } else {
-            Cube.CubeScript.Can = true;
-        }
+    //    if (seconds >= _sumRechargeAndDreezSeconds - freezTime) {
+    //        Cube.CubeScript.Can = false;
+    //    } else {
+    //        Cube.CubeScript.Can = true;
+    //    }
 
-    }
+    //}
 
 
 }
