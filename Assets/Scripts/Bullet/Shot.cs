@@ -34,9 +34,9 @@ public class Shot : MonoBehaviour {
         RaycastHit hit;
         if (Physics.Raycast(ray, out _hit)) {
             if (_hit.collider.gameObject.CompareTag("TargetGun"))
-                UI.Ui.HandleTarget(true);
+                UI.UiSpace.HandleTarget(true);
         } else {
-            UI.Ui.HandleTarget(false);
+            UI.UiSpace.HandleTarget(false);
         }
 
     }

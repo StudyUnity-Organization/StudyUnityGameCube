@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Cube : MonoBehaviour {
+public class HeroController : MonoBehaviour {
 
 
 
@@ -25,8 +25,8 @@ public class Cube : MonoBehaviour {
     private Rigidbody _rigidbody;
 
 
-    public static Cube CubeScript => _cubeScript;
-    private static Cube _cubeScript;
+    public static HeroController CubeScript => _cubeScript;
+    private static HeroController _cubeScript;
 
 
 
@@ -88,22 +88,16 @@ public class Cube : MonoBehaviour {
         _rigidbody.AddRelativeForce(0, 0, displacemenCube, ForceMode.Impulse);
     }
 
-    //public void DisplacementCube() {
-    //    _rigidbody.position = new Vector3(transform.position.x + transform.forward.x * speed * Time.deltaTime * Input.GetAxis("Vertical"),
-    //                                         transform.position.y,
-    //                                         transform.position.z + transform.forward.z * speed * Time.deltaTime * Input.GetAxis("Vertical"));
-    //}
 
     public void JumpCube() {
         if (Input.GetKeyDown(KeyCode.Space)) {
             if (_canJump) {
-                //      float jumpCube = Input.GetAxis("Horizontal") * forceJump;
                 _rigidbody.AddForce(Vector3.up * forceJump, ForceMode.Acceleration);
             }
         }
     }
 
-    public void JumpCan(string tag) {
+    public void TryAllowJump(string tag) {
         if (tag.Equals("Platform")) {
             _canJump = !_canJump;
         }
@@ -111,12 +105,12 @@ public class Cube : MonoBehaviour {
 
     private void OnCollisionExit(Collision collision) {
         string tag = collision.gameObject.tag;
-        JumpCan(tag);
+        TryAllowJump(tag);
     }
 
     private void OnCollisionEnter(Collision collision) {
         string tag = collision.gameObject.tag;
-        JumpCan(tag);
+        TryAllowJump(tag);
 
         if (tag.Equals("Wall")) {
             LogicScript.Logic.GameOver();

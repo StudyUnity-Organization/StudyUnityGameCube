@@ -28,7 +28,7 @@ public class UI : MonoBehaviour {
     private Image _aimImage;
 
 
-    public static UI Ui => _ui;
+    public static UI UiSpace => _ui;
     private static UI _ui;
 
 
@@ -43,7 +43,7 @@ public class UI : MonoBehaviour {
 
     private void Start() {
         // Debug.Log("Sprite _____ " + UI.Ui.Aim.GetComponent<Image>().sprite.name);
-        _aimImage = UI.Ui.Aim.GetComponent<Image>();
+        _aimImage = UI.UiSpace.Aim.GetComponent<Image>();
     }
 
     public ScoreTopResult scoreTopResult;

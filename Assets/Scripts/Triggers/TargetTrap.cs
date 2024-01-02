@@ -111,10 +111,10 @@ public class TargetTrap : MonoBehaviour {
         StartCoroutine(_coroutineDecontamination);
     }
     private IEnumerator BlockingMovement(float waitTime) {
-        Cube.CubeScript.Can = false;
+        HeroController.CubeScript.Can = false;
         while (true) {
             yield return new WaitForSeconds(waitTime);
-            Cube.CubeScript.Can = true;
+            HeroController.CubeScript.Can = true;
             StopCoroutine(_coroutineBlocked);
         }
     }

@@ -50,7 +50,7 @@ public class SwitchCamera : MonoBehaviour {
         _swich = !_swich;
         camFirstPersonView.SetActive(_swich);
         camThirdPersonView.SetActive(!_swich);
-        UI.Ui.Aim.SetActive(_swich);
+        UI.UiSpace.Aim.SetActive(_swich);
         DefaltPosition();
     }
     private void DefaltPosition() {

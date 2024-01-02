@@ -28,7 +28,7 @@ public class LogicScript : MonoBehaviour {
     private GameObject _targetInstance;  //CubeGeneratorClone
 
 
-    public Cube CubeScript;
+    public HeroController CubeScript;
     //public UI Ui;
 
     private Indicator indicatorScript;
@@ -76,8 +76,8 @@ public class LogicScript : MonoBehaviour {
     private void Start() {
         SpawnCubeGeneator();
         GeneratorTraps();
-        UI.Ui.TimerPaint();
-        UI.Ui.BestRresults();
+        UI.UiSpace.TimerPaint();
+        UI.UiSpace.BestRresults();
         //      cubeScript = GameObject.FindGameObjectWithTag("Cube").GetComponent<cubeScript>();
         indicatorScript = Indicator.IndicatorScript;
     }
@@ -86,7 +86,7 @@ public class LogicScript : MonoBehaviour {
         platform.transform.localScale = new Vector3(lengthPlatform, 1, lengthPlatform);
         platform.transform.position = new Vector3(0, -1, 0);
         if (StartGame) {
-            UI.Ui.TimerTick();
+            UI.UiSpace.TimerTick();
         }
     }
 
@@ -94,33 +94,38 @@ public class LogicScript : MonoBehaviour {
     public void ScorePlus(int plus) {
         score += plus;
         // Debug.Log(score);
-        UI.Ui.SetScore(score);
+        UI.UiSpace.SetScore(score);
     }
 
 
     public void SpawnCubeGeneator() {
-
-        if (GameMode == 1) {
-            _targetInstance = Instantiate(targetPositionSourcePrefab, new Vector3(Random.Range(lengthPlatform / 2, -lengthPlatform / 2), 0, Random.Range(lengthPlatform / 2, -lengthPlatform / 2)), transform.rotation);
-        }
-        if (GameMode == 2) {
-            _targetInstance = Instantiate(targetGunSourcePrefab, new Vector3(Random.Range(lengthPlatform / 2, -lengthPlatform / 2), 0, Random.Range(lengthPlatform / 2, -lengthPlatform / 2)), transform.rotation);
-        }
-        if (GameMode == 3) {
-            int random = Random.Range(0, 100);
-            if (random % 2 == 0) {
-                _targetInstance = Instantiate(targetPositionSourcePrefab, new Vector3(Random.Range(lengthPlatform / 2, -lengthPlatform / 2), 0, Random.Range(lengthPlatform / 2, -lengthPlatform / 2)), transform.rotation);
-            } else {
-                _targetInstance = Instantiate(targetGunSourcePrefab, new Vector3(Random.Range(lengthPlatform / 2, -lengthPlatform / 2), 0, Random.Range(lengthPlatform / 2, -lengthPlatform / 2)), transform.rotation);
-            }
-        }
+        switch (GameMode) {
+            case 1:
+                CreateInstance(targetPositionSourcePrefab);
+                break;
+            case 2:
+                CreateInstance(targetGunSourcePrefab);
+                break;
+            case 3:
+                int random = Random.Range(0, 100);
+                if (random % 2 == 0) {
+                    CreateInstance(targetPositionSourcePrefab);
+                } else {
+                    CreateInstance(targetGunSourcePrefab);
+                }
+                break;           
+        }     
 
         //_targetInstance = Instantiate(trapSourcePrefab, new Vector3(Random.Range(lengthPlatform / 2, -lengthPlatform / 2), 0, Random.Range(lengthPlatform / 2, -lengthPlatform / 2)), transform.rotation);
     }
 
+    public void CreateInstance(GameObject prefab) {
+        _targetInstance = Instantiate(prefab, new Vector3(Random.Range(lengthPlatform / 2, -lengthPlatform / 2), 0, Random.Range(lengthPlatform / 2, -lengthPlatform / 2)), transform.rotation);
+    }
+
     public void GameOver() {
         StartGame = false;
-        UI.Ui.GameOver(score);
+        UI.UiSpace.GameOver(score);
         CubeScript.Can = StartGame;
 
     }
@@ -132,8 +137,8 @@ public class LogicScript : MonoBehaviour {
 
     public void Started() {
         score = 0;
-        UI.Ui.SetScore(score);
-        UI.Ui.StartedGame(minutes * 60 + seconds);
+        UI.UiSpace.SetScore(score);
+        UI.UiSpace.StartedGame(minutes * 60 + seconds);
         StartGame = true;
         CubeScript.Can = StartGame;
         // cubeScript.startPosition();
