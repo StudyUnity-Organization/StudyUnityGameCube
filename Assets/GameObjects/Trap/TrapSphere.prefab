@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 3290571236341213916}
   - component: {fileID: 5128857013646035859}
   - component: {fileID: 5537239961774052261}
+  - component: {fileID: 3033487324250944472}
+  - component: {fileID: -2836567289986147177}
   m_Layer: 0
   m_Name: TrapSphere
   m_TagString: Untagged
@@ -118,12 +120,67 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00b4386a249e51a46ab68d899182d9e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ModeTrap: 2
   shereEndPrefab: {fileID: 7757867612756026198, guid: 4c119d072a153d848ba9b2b3da05b90c, type: 3}
   radius: 0.5
   maxRangeDistanceTrapActive: 5
-  timerTrap: 2
-  timerRecharge: 4
+  timerTrapBlookMoovment: 2
+  timerTrapSpringJoint: 4
+  timerRechargeTrap: 2
+  freezTime: 2
+  rechargeTime: 2
   LayerMask:
     serializedVersion: 2
     m_Bits: 64
   origin: {x: 0, y: 0, z: 0}
+--- !u!54 &3033487324250944472
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1772336056313727010}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!145 &-2836567289986147177
+SpringJoint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1772336056313727010}
+  m_ConnectedBody: {fileID: 0}
+  m_ConnectedArticulationBody: {fileID: 0}
+  m_Anchor: {x: 0, y: 0.5, z: 0}
+  m_AutoConfigureConnectedAnchor: 1
+  m_ConnectedAnchor: {x: 0, y: 0, z: 0}
+  serializedVersion: 2
+  m_Spring: 150
+  m_Damper: 0.2
+  m_MinDistance: 0
+  m_MaxDistance: 0
+  m_Tolerance: 0.025
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_EnableCollision: 0
+  m_EnablePreprocessing: 1
+  m_MassScale: 1
+  m_ConnectedMassScale: 1

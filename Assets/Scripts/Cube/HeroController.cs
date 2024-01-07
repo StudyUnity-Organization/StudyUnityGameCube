@@ -40,9 +40,7 @@ public class HeroController : MonoBehaviour {
         _rigidbody.maxAngularVelocity = Mathf.Infinity;
     }
 
-
-
-
+    
 
     private void Update() {
         GameOverBorders();
@@ -124,6 +122,10 @@ public class HeroController : MonoBehaviour {
             LogicScript.Logic.ScorePlus(1);
             Destroy(other.gameObject);
         }
+    }
+
+    public Vector3 GetPosition() { 
+        return transform.position;
     }
 
 }

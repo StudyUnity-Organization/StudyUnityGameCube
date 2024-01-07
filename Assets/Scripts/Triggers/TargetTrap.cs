@@ -6,6 +6,9 @@ using UnityEngine.UIElements;
 using static UnityEditor.U2D.ScriptablePacker;
 
 public class TargetTrap : MonoBehaviour {
+
+    public int ModeTrap = 1;
+
     [SerializeField]
     private GameObject shereEndPrefab;
     [SerializeField]
@@ -13,10 +16,12 @@ public class TargetTrap : MonoBehaviour {
     [SerializeField]
     private float maxRangeDistanceTrapActive = 1;
     [SerializeField]
-    private float timerTrap = 2;
+    private float timerTrapBlookMoovment = 2;
     [SerializeField]
-    private float timerRecharge = 4;
-
+    private float timerTrapSpringJoint = 10;
+    [SerializeField]
+    private float timerRechargeTrap = 2;
+    private float _timerRechargeTrapAll;
     [SerializeField]
     private float freezTime = 2;
     [SerializeField]
@@ -43,8 +48,16 @@ public class TargetTrap : MonoBehaviour {
 
     private IEnumerator _coroutineBlocked;
     private IEnumerator _coroutineDecontamination;
+    private IEnumerator _coroutineSpringJoint;
+    
+
+    private SpringJoint _springJoint;
+    private Transform _transform;
+
     private void Start() {
         CreateEndPointTrap(); //создаем конечную точку ловушки
+        _springJoint = gameObject.GetComponent<SpringJoint>();
+        _transform = transform;
     }
 
     // Update is called once per frame
@@ -103,14 +116,48 @@ public class TargetTrap : MonoBehaviour {
         
         // every 2 seconds perform the print()
     private void TrapHasWorked(float a) {
+        switch (ModeTrap) {
+            case 1: {
+                _coroutineBlocked = BlockingMovement(timerTrapBlookMoovment);
+                StartCoroutine(_coroutineBlocked);
+                _timerRechargeTrapAll = timerRechargeTrap + timerTrapBlookMoovment;
+            }
+            break;
+            case 2: {
+                _coroutineSpringJoint = BlockingMovementSpringJoint(timerTrapSpringJoint);
+                StartCoroutine(_coroutineSpringJoint);
+                _timerRechargeTrapAll = timerRechargeTrap + timerTrapSpringJoint;
+            }
+            break;
+        }  
 
-        _coroutineBlocked = BlockingMovement(2.0f);
-        StartCoroutine(_coroutineBlocked);
-
-        _coroutineDecontamination = DecontaminationTrap(4.0f);
+        _coroutineDecontamination = DecontaminationTrap(_timerRechargeTrapAll);
         StartCoroutine(_coroutineDecontamination);
     }
-    private IEnumerator BlockingMovement(float waitTime) {
+
+    private IEnumerator BlockingMovementSpringJoint(float waitTime) {  //блокировка перемещения
+        CreateComponentJointNew();
+        while (true) {
+            yield return new WaitForSeconds(waitTime);
+            _springJoint.connectedBody = null;       
+            StopCoroutine(_coroutineSpringJoint);
+        }
+    }
+
+    private void CreateComponentJointNew() {
+        _springJoint = gameObject.GetComponent<SpringJoint>();       
+        _springJoint.connectedBody = _hit.collider.gameObject.GetComponent<Rigidbody>();
+        _springJoint.connectedAnchor = transform.position;
+    }
+
+    private void CreateComponentJoint() {
+        _springJoint = _hit.collider.gameObject.AddComponent<SpringJoint>();      
+        _springJoint.connectedBody = gameObject.GetComponent<Rigidbody>();
+        _springJoint.connectedAnchor = transform.position;
+    }
+
+
+    private IEnumerator BlockingMovement(float waitTime) {  //блокировка перемещения
         HeroController.CubeScript.Can = false;
         while (true) {
             yield return new WaitForSeconds(waitTime);
@@ -119,10 +166,13 @@ public class TargetTrap : MonoBehaviour {
         }
     }
 
-    private IEnumerator DecontaminationTrap(float waitTime) {
+    private IEnumerator DecontaminationTrap(float waitTime) {  //перезарядка ловушки
         while (true) {
             yield return new WaitForSeconds(waitTime);
             _trapIsActive = false;
+            if (_springJoint != null) {
+                _springJoint.connectedBody = null;              
+            }
             StopCoroutine(_coroutineDecontamination);
         }
       
@@ -144,9 +194,21 @@ public class TargetTrap : MonoBehaviour {
         if (_trapIsActive) {
             TrapHasWorked(_globalSeconds);
             _globalSeconds = _globalSeconds - 1 * Time.deltaTime;
+         
+      
         }
     }
 
+
+    //public void TrapWorking() { //делаем, когда ловушка работает
+
+
+    //}
+
+    //public void TrapNotWorking() { //делаем, когда ловушка неработает
+
+
+    //}
     //private void TrapHasWorked(float seconds) {
     //    if (seconds <= 0) {
     //        _trapIsActive = false;

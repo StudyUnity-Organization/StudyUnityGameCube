@@ -16,10 +16,13 @@ public class LogicScript : MonoBehaviour {
 
     [SerializeField]
     private GameObject cube;
+
+    [SerializeField]
+    private GameObject targetPositionSourcePrefab;  //CubeGenerator
     [SerializeField]
     private GameObject targetGunSourcePrefab;  //CubeGenerator
     [SerializeField]
-    private GameObject targetPositionSourcePrefab;  //CubeGenerator
+    private GameObject targetGunSpinSourcePrefab;  //CubeGenerator
     [SerializeField]
     private GameObject trapSourcePrefab;  //CubeGenerator
     [SerializeField]
@@ -107,6 +110,9 @@ public class LogicScript : MonoBehaviour {
                 CreateInstance(targetGunSourcePrefab);
                 break;
             case 3:
+                CreateInstance(targetGunSpinSourcePrefab);
+                break;
+            case 4:
                 int random = Random.Range(0, 100);
                 if (random % 2 == 0) {
                     CreateInstance(targetPositionSourcePrefab);
