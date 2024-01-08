@@ -1,12 +1,13 @@
-using System.IO;
+п»їusing System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIScript : MonoBehaviour {
+public class UI : MonoBehaviour {
 
     public GameObject GameOverTEXT;
     public GameObject GameOverButton;
     public GameObject StartButton;
+    public GameObject Aim;
 
     public Text TextScore;
     public Text TextTimer;
@@ -19,14 +20,30 @@ public class UIScript : MonoBehaviour {
                                                                              // Start is called before the first frame update
 
     private int _score = 0;
-    private float _timesTimerAll = 0;  //счетчик времени
-    private float _timesTimer = 0;  //переменная для хранения
+    private float _timesTimerAll = 0;  //СЃС‡РµС‚С‡РёРє РІСЂРµРјРµРЅРё
+    private float _timesTimer = 0;  //РїРµСЂРµРјРµРЅРЅР°СЏ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ
 
-    public LogicScript Logic;
+    //   public Logic.LogicScript Logic.Logic;
+
+    private Image _aimImage;
 
 
-    void Start() {
-        Logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
+    public static UI UiSpace => _ui;
+    private static UI _ui;
+
+
+
+    private void Awake() {
+        if (_ui == null) {
+            _ui = this;
+        } else {
+            Destroy(this);
+        }
+    }
+
+    private void Start() {
+        // Debug.Log("Sprite _____ " + UI.Ui.Aim.GetComponent<Image>().sprite.name);
+        _aimImage = UI.UiSpace.Aim.GetComponent<Image>();
     }
 
     public ScoreTopResult scoreTopResult;
@@ -34,8 +51,8 @@ public class UIScript : MonoBehaviour {
     public void TimerTick() {
         _timesTimerAll = _timesTimerAll - 1 * Time.deltaTime;
         TimerPaint();
-        if (_timesTimerAll <= 0 && Logic.StartGame) {
-            Logic.GameOver();
+        if (_timesTimerAll <= 0 && LogicScript.Logic.StartGame) {
+            LogicScript.Logic.GameOver();
         }
     }
 
@@ -136,6 +153,8 @@ public class UIScript : MonoBehaviour {
         TextResult.gameObject.SetActive(true);
         WriteTopResultFromFiles();
         TextResult.text = "Your result:\n " + _score + " points";
+        Aim.SetActive(false);
+
 
 
     }
@@ -147,7 +166,17 @@ public class UIScript : MonoBehaviour {
         GameOverTEXT.SetActive(false);
         GameOverButton.SetActive(false);
         TextResult.gameObject.SetActive(false);
+        Aim.SetActive(true);
         //    TimerTick();
 
+    }
+
+
+    public void HandleTarget(bool aimed) {
+        if (aimed) {
+            _aimImage.color = Color.green;
+        } else {
+            _aimImage.color = Color.black;
+        }
     }
 }

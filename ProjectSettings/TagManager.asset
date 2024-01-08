@@ -6,6 +6,11 @@ TagManager:
   tags:
   - Logic
   - Cube
+  - Platform
+  - Wall
+  - Target
+  - TargetGun
+  - TargetGunSpin
   layers:
   - Default
   - TransparentFX
@@ -13,10 +18,10 @@ TagManager:
   - Logic
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - Target
+  - Floor
+  - Wall
   - 
   - 
   - 

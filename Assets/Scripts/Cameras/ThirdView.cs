@@ -1,4 +1,4 @@
-using CustomMath;
+ï»¿using CustomMath;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,8 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ThirdVeiw : MonoBehaviour
-{
+public class ThirdVeiw : MonoBehaviour {
     // Start is called before the first frame update
     [SerializeField]
     private GameObject cube;
@@ -44,7 +43,6 @@ public class ThirdVeiw : MonoBehaviour
         _defaltXRotation = rotationInCartesianCoordinate.y;
         _defaltYRotation = rotationInCartesianCoordinate.z;
         ThirdViweCameraRotationDefalt(cube, rotationInCartesianCoordinate);
-  
     }
 
 
@@ -62,32 +60,33 @@ public class ThirdVeiw : MonoBehaviour
             _turnY = -1;
         }
         _xRotation = Interpolation.Remap3D(0, 1, 0, 360, _turnX);
-        _yRotation = Interpolation.Remap3D(0, 1, 0, 360, -_turnY);        
-              // rotationInSpereCoordinate = RotationAroundSphere(radius, _xRotation, _yRotation);
-        rotationInSpereCoordinate = RotationAroundSphere(radius, _yRotation+ _defaltXRotation,  _xRotation + _defaltYRotation);
+        _yRotation = Interpolation.Remap3D(0, 1, 0, 360, -_turnY);
+        // rotationInSpereCoordinate = RotationAroundSphere(radius, _xRotation, _yRotation);
+        rotationInSpereCoordinate = RotationAroundSphere(radius, _yRotation + _defaltXRotation, _xRotation + _defaltYRotation);
         if (rotationInSpereCoordinate.y < 0) {
             rotationInSpereCoordinate.y = 0;
         }
 
 
-        transform.position =  rotationInSpereCoordinate + cube.transform.position;
+        transform.position = rotationInSpereCoordinate + cube.transform.position;
         Vector3 relativePos = _cubeTransform.position - _transform.position;
         Quaternion rotation = Quaternion.LookRotation(relativePos);
         _transform.rotation = rotation;
     }
 
     public void ThirdViweCameraRotationDefalt(GameObject cube, Vector3 rotationInCartesianCoordinate) {
-        //ôóíêöèÿ äëÿ óñòàíîâêè êàìåðû â äåôîëòíîå ïîëîæåíèå îòíîñèòåëüíî êóáà 
-        //áåðó óãîë ïîâîðîòà êóáà ïî îñè ó è âû÷èòàþ åãî èç äåôîëòíîãî óãëà ïîâîðîòà       
+        //Ñ„ÑƒÐ½ÐºÑ†Ð¸Ñ Ð´Ð»Ñ ÑƒÑÑ‚Ð°Ð½Ð¾Ð²ÐºÐ¸ ÐºÐ°Ð¼ÐµÑ€Ñ‹ Ð² Ð´ÐµÑ„Ð¾Ð»Ñ‚Ð½Ð¾Ðµ Ð¿Ð¾Ð»Ð¾Ð¶ÐµÐ½Ð¸Ðµ Ð¾Ñ‚Ð½Ð¾ÑÐ¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ ÐºÑƒÐ±Ð° 
+        //Ð±ÐµÑ€Ñƒ ÑƒÐ³Ð¾Ð» Ð¿Ð¾Ð²Ð¾Ñ€Ð¾Ñ‚Ð° ÐºÑƒÐ±Ð° Ð¿Ð¾ Ð¾ÑÐ¸ Ñƒ Ð¸ Ð²Ñ‹Ñ‡Ð¸Ñ‚Ð°ÑŽ ÐµÐ³Ð¾ Ð¸Ð· Ð´ÐµÑ„Ð¾Ð»Ñ‚Ð½Ð¾Ð³Ð¾ ÑƒÐ³Ð»Ð° Ð¿Ð¾Ð²Ð¾Ñ€Ð¾Ñ‚Ð°       
         float x = rotationInCartesianCoordinate.x;
         float y = rotationInCartesianCoordinate.y;
         float z = rotationInCartesianCoordinate.z;
         Quaternion rotCube = cube.transform.rotation;
         Vector3 rotCubeAngle = rotCube.ToEulerAngles() / Mathf.Deg2Rad;
         z = z - rotCubeAngle.y;
-        Debug.Log(z);
-        _defaltPosition = RotationAroundSphere(x, y , z);
-     //   Vector3 angleBetweenCubeAndCamer = RotationAroundSphere(0, cube.transform.rotation.y, 0);
+        //   Debug.Log(z);
+
+        _defaltPosition = RotationAroundSphere(x, y, z);
+        //   Vector3 angleBetweenCubeAndCamer = RotationAroundSphere(0, cube.transform.rotation.y, 0);
         transform.position = _defaltPosition + cube.transform.position;
 
         Vector3 relativePos = cube.transform.position - _transform.position;
@@ -113,21 +112,21 @@ public class ThirdVeiw : MonoBehaviour
         p = MathF.Sqrt(p);
         float angleTh = MathF.Acos(z / p) * Mathf.Rad2Deg;
         float angleF = MathF.Atan2(y, x) * Mathf.Rad2Deg;
-    
+
 
         return new Vector3(p, angleTh, angleF);
 
     }
 
     private Vector2 RotationAroundCircle(float p, float angleTh) {
-        angleTh = angleTh / Mathf.Rad2Deg;       
+        angleTh = angleTh / Mathf.Rad2Deg;
         float x = p * Mathf.Cos(angleTh);
         float y = p * Mathf.Sin(angleTh);
         return new Vector2(x, y);
     }
 
 
-    private void OnDrawGizmosSelected() {   
+    private void OnDrawGizmosSelected() {
         Gizmos.color = Color.grey;
         Gizmos.DrawSphere(_cubeTransform.position, radius);
     }
