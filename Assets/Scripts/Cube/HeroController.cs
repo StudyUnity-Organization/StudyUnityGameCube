@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class HeroController : MonoBehaviour {
 
@@ -23,7 +24,7 @@ public class HeroController : MonoBehaviour {
     private bool _canJump = false;
 
     private Rigidbody _rigidbody;
-
+    private Vector3 _position;
 
     public static HeroController CubeScript => _cubeScript;
     private static HeroController _cubeScript;
@@ -40,7 +41,7 @@ public class HeroController : MonoBehaviour {
         _rigidbody.maxAngularVelocity = Mathf.Infinity;
     }
 
-    
+
 
     private void Update() {
         GameOverBorders();
@@ -65,27 +66,28 @@ public class HeroController : MonoBehaviour {
         }
     }
 
-
-
-
-
-    public void RotationCube() {
-        float rotationCube = Input.GetAxis("Horizontal") * speedRotation;
-        _rigidbody.AddTorque(0, rotationCube, 0);
-    }
     //public void RotationCube() {
-    //    float rotationCube = Input.GetAxis("Horizontal") * angleRotation * Time.deltaTime;
-    //    Quaternion turning = Quaternion.AngleAxis(rotationCube, Vector3.up);
-    //    transform.rotation *= turning;
+    //    float rotationCube = Input.GetAxis("Horizontal") * speedRotation;
+    //    _rigidbody.AddTorque(0, rotationCube, 0);
+    //}
+    public void RotationCube() {
+        float rotationCube = Input.GetAxis("Horizontal") * angleRotation * Time.deltaTime;
+        Quaternion turning = Quaternion.AngleAxis(rotationCube, Vector3.up);
+        _rigidbody.transform.rotation *= turning;
+    }
+
+
+    //public void DisplacementCube() {
+    //    float displacemenCube = Input.GetAxis("Vertical") * speedDisplacement;
+    //    _rigidbody.AddRelativeForce(0, 0, displacemenCube, ForceMode.Impulse);
     //}
 
-
-
     public void DisplacementCube() {
-        float displacemenCube = Input.GetAxis("Vertical") * speedDisplacement;
-        _rigidbody.AddRelativeForce(0, 0, displacemenCube, ForceMode.Impulse);
+        float displacemenCube = speed * Time.deltaTime * Input.GetAxis("Vertical");
+        _rigidbody.transform.position = new Vector3(_rigidbody.transform.position.x + transform.forward.x * displacemenCube,
+                                                    _rigidbody.transform.position.y,
+                                                    _rigidbody.transform.position.z + transform.forward.z * displacemenCube);
     }
-
 
     public void JumpCube() {
         if (Input.GetKeyDown(KeyCode.Space)) {
@@ -124,7 +126,7 @@ public class HeroController : MonoBehaviour {
         }
     }
 
-    public Vector3 GetPosition() { 
+    public Vector3 GetPosition() {
         return transform.position;
     }
 

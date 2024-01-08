@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnerHeroy : MonoBehaviour
-{
+public class SpawnerHeroy : MonoBehaviour {
     [SerializeField]
     private GameObject[] spawner;
     [SerializeField]
@@ -14,18 +13,16 @@ public class SpawnerHeroy : MonoBehaviour
     private Transform _transformSpawner;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         _transformCube = cube.transform;
-        _transformSpawner = spawner[0].transform; 
+        _transformSpawner = spawner[0].transform;
         _transformCube.position = _transformSpawner.position;
         _transformCube.rotation = _transformSpawner.rotation;
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
+    void Update() {
+
     }
 
     public void ChoosingSpawnLocationRight() {
@@ -39,7 +36,7 @@ public class SpawnerHeroy : MonoBehaviour
     }
     public void ChoosingSpawnLocationLeft() {
         _count--;
-        while(_count < 0) {
+        while (_count < 0) {
             _count += spawner.Length;
         }
         _transformSpawner = spawner[_count % spawner.Length].transform;

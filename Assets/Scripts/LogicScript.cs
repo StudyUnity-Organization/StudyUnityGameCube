@@ -119,8 +119,8 @@ public class LogicScript : MonoBehaviour {
                 } else {
                     CreateInstance(targetGunSourcePrefab);
                 }
-                break;           
-        }     
+                break;
+        }
 
         //_targetInstance = Instantiate(trapSourcePrefab, new Vector3(Random.Range(lengthPlatform / 2, -lengthPlatform / 2), 0, Random.Range(lengthPlatform / 2, -lengthPlatform / 2)), transform.rotation);
     }

@@ -49,7 +49,7 @@ public class TargetTrap : MonoBehaviour {
     private IEnumerator _coroutineBlocked;
     private IEnumerator _coroutineDecontamination;
     private IEnumerator _coroutineSpringJoint;
-    
+
 
     private SpringJoint _springJoint;
     private Transform _transform;
@@ -63,7 +63,7 @@ public class TargetTrap : MonoBehaviour {
     // Update is called once per frame
     private void Update() {
         //     TargetRecognition(); //
-     //   TimerTrap();
+        //   TimerTrap();
     }
     private void FixedUpdate() {
         TargetRecognition();  //проверка попадания в ловушку
@@ -111,25 +111,25 @@ public class TargetTrap : MonoBehaviour {
         }
     }
 
-    
 
-        
-        // every 2 seconds perform the print()
+
+
+    // every 2 seconds perform the print()
     private void TrapHasWorked(float a) {
         switch (ModeTrap) {
             case 1: {
-                _coroutineBlocked = BlockingMovement(timerTrapBlookMoovment);
-                StartCoroutine(_coroutineBlocked);
-                _timerRechargeTrapAll = timerRechargeTrap + timerTrapBlookMoovment;
-            }
-            break;
+                    _coroutineBlocked = BlockingMovement(timerTrapBlookMoovment);
+                    StartCoroutine(_coroutineBlocked);
+                    _timerRechargeTrapAll = timerRechargeTrap + timerTrapBlookMoovment;
+                }
+                break;
             case 2: {
-                _coroutineSpringJoint = BlockingMovementSpringJoint(timerTrapSpringJoint);
-                StartCoroutine(_coroutineSpringJoint);
-                _timerRechargeTrapAll = timerRechargeTrap + timerTrapSpringJoint;
-            }
-            break;
-        }  
+                    _coroutineSpringJoint = BlockingMovementSpringJoint(timerTrapSpringJoint);
+                    StartCoroutine(_coroutineSpringJoint);
+                    _timerRechargeTrapAll = timerRechargeTrap + timerTrapSpringJoint;
+                }
+                break;
+        }
 
         _coroutineDecontamination = DecontaminationTrap(_timerRechargeTrapAll);
         StartCoroutine(_coroutineDecontamination);
@@ -139,19 +139,19 @@ public class TargetTrap : MonoBehaviour {
         CreateComponentJointNew();
         while (true) {
             yield return new WaitForSeconds(waitTime);
-            _springJoint.connectedBody = null;       
+            _springJoint.connectedBody = null;
             StopCoroutine(_coroutineSpringJoint);
         }
     }
 
     private void CreateComponentJointNew() {
-        _springJoint = gameObject.GetComponent<SpringJoint>();       
+        _springJoint = gameObject.GetComponent<SpringJoint>();
         _springJoint.connectedBody = _hit.collider.gameObject.GetComponent<Rigidbody>();
         _springJoint.connectedAnchor = transform.position;
     }
 
     private void CreateComponentJoint() {
-        _springJoint = _hit.collider.gameObject.AddComponent<SpringJoint>();      
+        _springJoint = _hit.collider.gameObject.AddComponent<SpringJoint>();
         _springJoint.connectedBody = gameObject.GetComponent<Rigidbody>();
         _springJoint.connectedAnchor = transform.position;
     }
@@ -171,12 +171,12 @@ public class TargetTrap : MonoBehaviour {
             yield return new WaitForSeconds(waitTime);
             _trapIsActive = false;
             if (_springJoint != null) {
-                _springJoint.connectedBody = null;              
+                _springJoint.connectedBody = null;
             }
             StopCoroutine(_coroutineDecontamination);
         }
-      
-    }    
+
+    }
 
     private bool CheckingGoingAbroad(Vector3 vector, float distance) {
         if (-distance <= vector.x && vector.x <= distance) {
@@ -194,8 +194,8 @@ public class TargetTrap : MonoBehaviour {
         if (_trapIsActive) {
             TrapHasWorked(_globalSeconds);
             _globalSeconds = _globalSeconds - 1 * Time.deltaTime;
-         
-      
+
+
         }
     }
 
