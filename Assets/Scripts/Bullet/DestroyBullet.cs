@@ -8,7 +8,7 @@ public class DestroyBullet : MonoBehaviour {
 
     [SerializeField]
     private Transform cubeTransform;
-
+    
     private int _health = 2;
 
     private void Update() {
@@ -31,8 +31,9 @@ public class DestroyBullet : MonoBehaviour {
                     collision.gameObject.GetComponent<Rigidbody>().AddForce(
                         -(transform.position * Vector3.Distance(HeroController.CubeScript.GetPosition(), collision.gameObject.transform.position)));
                     // TargetGunSpin.getTargetGunSpin.HitTarget(damage);  //ВОПРОС ПО СОЗДАНИЮ ОБЪЕКТА - ПОЧЕМУ ПРИ УДАЛЕНИИ ИЗ СКРИПТА НА ОБЪЕКТЕ - ОШИБКА
-                    TargetGunSpin.getTargetGunSpin._health -= damage; ;
-                    if (TargetGunSpin.getTargetGunSpin._health <= 0) {
+                    TargetGunSpin targetGunSpin = collision.gameObject.GetComponent<TargetGunSpin>();
+                    targetGunSpin._health -= damage; ;
+                    if (targetGunSpin._health <= 0) {
                         LogicScript.Logic.SpawnCubeGeneator();
                         LogicScript.Logic.ScorePlus(4);
                         Destroy(collision.gameObject);

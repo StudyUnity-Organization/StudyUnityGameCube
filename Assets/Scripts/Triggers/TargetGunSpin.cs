@@ -7,21 +7,11 @@ public class TargetGunSpin : MonoBehaviour
     [SerializeField]
     private int health = 10;   
 
-    public static TargetGunSpin getTargetGunSpin => _targetGunSpin;
-    private static TargetGunSpin _targetGunSpin;
-
     public int _health = 10; //переменные названы неправильно из-за вопроса!
 
     private void Awake() {
-        _health = health;
-        if (_targetGunSpin == null) {
-            _targetGunSpin = this;
-        } else {
-            Destroy(this);
-        }
-       
+        _health = health;       
     }
-
 
     // Start is called before the first frame update
     void Start()
