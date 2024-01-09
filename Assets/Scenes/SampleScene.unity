@@ -1089,6 +1089,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camFirstPersonView: {fileID: 963194225}
+  speedCamerRotation: 0.1
   angleFirstViewX: 30
   angleFirstViewY: 15
 --- !u!1 &1022476990
@@ -1884,6 +1885,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ef735cbf8f467f4496a9f0d263d9419, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cube: {fileID: 1256885197}
+  speedCamerRotation: 0.01
   radius: -7.6
   rotationInSpereCoordinate: {x: 0, y: 0, z: 0}
   rotationInCartesianCoordinate: {x: 0, y: 0, z: 0}
