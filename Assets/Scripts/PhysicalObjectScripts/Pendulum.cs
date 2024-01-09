@@ -35,8 +35,8 @@ public class Pendulum : MonoBehaviour {
         _min = _joint.limits.max + _joint.limits.min + calibrationAngle;
         _jointMax = _joint.limits.max;
         _jointMin = _joint.limits.min;
-        Debug.Log("max " + _max);
-        Debug.Log("min " + _min);
+        //Debug.Log("max " + _max);
+        //Debug.Log("min " + _min);
     }
 
     // Update is called once per frame

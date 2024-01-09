@@ -21,7 +21,7 @@ public class HeroController : MonoBehaviour {
     private float forceJump = 300; //300            /250  + mass 10 drag 1
 
     public bool Can = false;
-    private bool _canJump = false;
+    private bool _canJump = true;
 
     private Rigidbody _rigidbody;
     private Vector3 _position;
@@ -97,20 +97,21 @@ public class HeroController : MonoBehaviour {
         }
     }
 
-    public void TryAllowJump(string tag) {
+    public void TryAllowJump(string tag, bool allowJump) {
+        Debug.Log(tag);
         if (tag.Equals("Platform")) {
-            _canJump = !_canJump;
-        }
+           _canJump = allowJump;
+        } 
     }
 
     private void OnCollisionExit(Collision collision) {
         string tag = collision.gameObject.tag;
-        TryAllowJump(tag);
+        TryAllowJump(tag, false);
     }
 
     private void OnCollisionEnter(Collision collision) {
         string tag = collision.gameObject.tag;
-        TryAllowJump(tag);
+        TryAllowJump(tag, true);
 
         if (tag.Equals("Wall")) {
             LogicScript.Logic.GameOver();
