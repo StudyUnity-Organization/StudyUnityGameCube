@@ -8,8 +8,11 @@ public class HeroController : MonoBehaviour {
 
 
 
+
     [SerializeField]
-    private float speed = 5; //10       //10
+    private float speed = 5; //10    
+    [SerializeField]
+    private float shiftSpeed = 10; //10       //10
     [SerializeField]
     private float angleRotation = 15f; //100        /100
 
@@ -30,6 +33,7 @@ public class HeroController : MonoBehaviour {
     private static HeroController _cubeScript;
 
 
+    private float _speed = 5; //10       //10
 
     private void Awake() {
         if (_cubeScript == null) {
@@ -49,6 +53,7 @@ public class HeroController : MonoBehaviour {
         if (Can) {
             JumpCube();
         }
+
     }
 
     private void FixedUpdate() {
@@ -83,7 +88,8 @@ public class HeroController : MonoBehaviour {
     //}
 
     public void DisplacementCube() {
-        float displacemenCube = speed * Time.deltaTime * Input.GetAxis("Vertical");
+        ShiftDisplacementCube();
+        float displacemenCube = _speed * Time.deltaTime * Input.GetAxis("Vertical");
         _rigidbody.transform.position = new Vector3(_rigidbody.transform.position.x + transform.forward.x * displacemenCube,
                                                     _rigidbody.transform.position.y,
                                                     _rigidbody.transform.position.z + transform.forward.z * displacemenCube);
@@ -129,6 +135,15 @@ public class HeroController : MonoBehaviour {
 
     public Vector3 GetPosition() {
         return transform.position;
+    }
+
+    public void ShiftDisplacementCube() {
+       if(Input.GetKey(KeyCode.LeftShift)) {
+            _speed = shiftSpeed;
+       } else {
+            _speed = speed;
+       }
+
     }
 
 }

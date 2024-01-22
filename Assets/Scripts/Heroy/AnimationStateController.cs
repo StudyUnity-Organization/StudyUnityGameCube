@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class AnimationStateController : MonoBehaviour
 {
 
@@ -9,6 +10,8 @@ public class AnimationStateController : MonoBehaviour
     private bool isWalk;
     private bool isRun;
     private bool isJump;
+    private bool isDeath;
+    private bool isAiming;
 
     private float velocity = 0.0f;
     [SerializeField]
@@ -17,7 +20,18 @@ public class AnimationStateController : MonoBehaviour
     private float deceleration = 0.5f;
     private float _transitions = 0.5f;
 
-    
+    public static AnimationStateController AnimatedHeroy => _animatedHeroy;
+    private static AnimationStateController _animatedHeroy;
+
+
+    private void Awake() {
+        if (_animatedHeroy == null) {
+            _animatedHeroy = this;
+        } else {
+            Destroy(this);
+        }
+    }
+
 
     private void Start()
     {
@@ -30,6 +44,9 @@ public class AnimationStateController : MonoBehaviour
         isWalk = Input.GetKey(KeyCode.W);
         isRun = Input.GetKey(KeyCode.LeftShift);
         isJump = Input.GetKey(KeyCode.Space);
+        //isDeath = Input.GetKey(KeyCode.D);
+        isAiming = Input.GetKey(KeyCode.Mouse1);
+
         //Debug.Log("isWalk = " + isWalk);
         //Debug.Log("isRun = " + isRun);
         //Debug.Log("isJump = " + isJump);
@@ -89,6 +106,20 @@ public class AnimationStateController : MonoBehaviour
             animator.SetBool("isJump", true);
         } else {
             animator.SetBool("isJump", false);
+        }
+
+
+
+        if (isDeath) {
+            animator.SetBool("isDeath", true);
+        } else {
+            animator.SetBool("isDeath", false);
+        }
+
+        if (isAiming) {
+            animator.SetLayerWeight(animator.GetLayerIndex("Aiming"), 1f);
+        } else {
+            animator.SetLayerWeight(animator.GetLayerIndex("Aiming"), 0f);
         }
 
     }
