@@ -20,6 +20,9 @@ public class AnimationStateController : MonoBehaviour
     private float deceleration = 0.5f;
     private float _transitions = 0.5f;
 
+    [SerializeField]
+    private Rigidbody[] AllRigidBody;
+
     public static AnimationStateController AnimatedHeroy => _animatedHeroy;
     private static AnimationStateController _animatedHeroy;
 
@@ -29,6 +32,10 @@ public class AnimationStateController : MonoBehaviour
             _animatedHeroy = this;
         } else {
             Destroy(this);
+        }
+
+        for (int i = 0; i < AllRigidBody.Length; i++) {
+            AllRigidBody[i].isKinematic = true;
         }
     }
 
@@ -46,7 +53,7 @@ public class AnimationStateController : MonoBehaviour
         isJump = Input.GetKey(KeyCode.Space);
         //isDeath = Input.GetKey(KeyCode.D);
         isAiming = Input.GetKey(KeyCode.Mouse1);
-
+        if (Input.GetKey(KeyCode.O)) MakePhysical();
         //Debug.Log("isWalk = " + isWalk);
         //Debug.Log("isRun = " + isRun);
         //Debug.Log("isJump = " + isJump);
@@ -122,5 +129,17 @@ public class AnimationStateController : MonoBehaviour
             animator.SetLayerWeight(animator.GetLayerIndex("Aiming"), 0f);
         }
 
+    }
+
+    public void MakePhysical() {
+     
+        for (int i = 0; i < AllRigidBody.Length; i++) {
+            AllRigidBody[i].isKinematic = false;
+        }
+        isDeath = true;
+        isWalk = false;
+        isRun = false;
+        isJump = false;
+        //GetComponent<Animator>().enabled = false;
     }
 }

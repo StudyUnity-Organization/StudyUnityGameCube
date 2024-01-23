@@ -66,7 +66,7 @@ public class HeroController : MonoBehaviour {
 
 
     private void GameOverBorders() {
-        if (transform.position.y < -1) {
+        if (transform.position.y < -3) {
             LogicScript.Logic.GameOver();
         }
     }
@@ -104,7 +104,7 @@ public class HeroController : MonoBehaviour {
     }
 
     public void TryAllowJump(string tag, bool allowJump) {
-        Debug.Log(tag);
+        //Debug.Log(tag);
         if (tag.Equals("Platform")) {
            _canJump = allowJump;
         } 
@@ -112,11 +112,13 @@ public class HeroController : MonoBehaviour {
 
     private void OnCollisionExit(Collision collision) {
         string tag = collision.gameObject.tag;
+        Debug.Log("NOENTER   =  " + tag);
         TryAllowJump(tag, false);
     }
 
     private void OnCollisionEnter(Collision collision) {
         string tag = collision.gameObject.tag;
+        Debug.Log("ENTER   =  " + tag);
         TryAllowJump(tag, true);
 
         if (tag.Equals("Wall")) {

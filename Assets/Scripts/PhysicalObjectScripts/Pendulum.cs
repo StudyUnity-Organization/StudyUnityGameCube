@@ -66,7 +66,16 @@ public class Pendulum : MonoBehaviour {
         switch (tag) {
             case "Player": {
                     Debug.Log(transform.position * 1000);
-                    collision.gameObject.GetComponent<Rigidbody>().AddForceAtPosition(-transform.position * 100, HeroController.CubeScript.GetPosition());
+                    //collision.gameObject.GetComponent<Rigidbody>().AddForceAtPosition(-transform.position * 100, HeroController.CubeScript.GetPosition());
+                    //collision.gameObject.GetComponent<BoxCollider>().enabled = false;
+                    //Rigidbody rigidbody = collision.gameObject.GetComponent<Rigidbody>();
+                    //Vector3 position = collision.gameObject.GetComponent<Rigidbody>().transform.position;
+                    //position.y = position.y - 1f;
+                    //Rigidbody rigidbody1;
+                    //rigidbody1.transform.position = position;
+
+                    AnimationStateController.AnimatedHeroy.MakePhysical();
+                    LogicScript.Logic.GameOver();
                     //         -(new Vector3(collision .point transform.position.x*100, transform.position.y, transform.position.z*100) ));
                 }
                 break;
