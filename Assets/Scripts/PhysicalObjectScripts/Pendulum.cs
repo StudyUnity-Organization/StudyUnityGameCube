@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ public class Pendulum : MonoBehaviour {
 
     [SerializeField]
     private float calibrationAngle;
+
 
     private HingeJoint _joint;
 
@@ -26,7 +28,6 @@ public class Pendulum : MonoBehaviour {
 
     private float _jointMin;
 
-    // Start is called before the first frame update
     private void Start() {
         _jointMotor = gameObject.GetComponent<HingeJoint>().motor;
         _transform = gameObject.transform;
@@ -35,11 +36,8 @@ public class Pendulum : MonoBehaviour {
         _min = _joint.limits.max + _joint.limits.min + calibrationAngle;
         _jointMax = _joint.limits.max;
         _jointMin = _joint.limits.min;
-        //Debug.Log("max " + _max);
-        //Debug.Log("min " + _min);
     }
 
-    // Update is called once per frame
     private void Update() {
 
         rotationAnglePendulum = (_transform.eulerAngles.z + _jointMax) % 360;
@@ -65,15 +63,8 @@ public class Pendulum : MonoBehaviour {
 
         switch (tag) {
             case "Player": {
-                    Debug.Log(transform.position * 1000);
-                    //collision.gameObject.GetComponent<Rigidbody>().AddForceAtPosition(-transform.position * 100, HeroController.CubeScript.GetPosition());
-                    //collision.gameObject.GetComponent<BoxCollider>().enabled = false;
-                    //Rigidbody rigidbody = collision.gameObject.GetComponent<Rigidbody>();
-                    //Vector3 position = collision.gameObject.GetComponent<Rigidbody>().transform.position;
-                    //position.y = position.y - 1f;
-                    //Rigidbody rigidbody1;
-                    //rigidbody1.transform.position = position;
-
+                    //Debug.Log(transform.position * 1000);
+                    //collision.gameObject.GetComponent<Rigidbody>().AddForceAtPosition(-transform.position * 100, HeroController.CubeScript.GetPosition());                 
                     AnimationStateController.AnimatedHeroy.MakePhysical();
                     LogicScript.Logic.GameOver();
                     //         -(new Vector3(collision .point transform.position.x*100, transform.position.y, transform.position.z*100) ));

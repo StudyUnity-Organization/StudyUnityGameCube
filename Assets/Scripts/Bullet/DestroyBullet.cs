@@ -43,17 +43,7 @@ public class DestroyBullet : MonoBehaviour {
 
         }
         Destroy(gameObject);
-        //if (tag.Equals("TargetGun")) {
-        //    LogicScript.Logic.SpawnCubeGeneator();
-        //    LogicScript.Logic.ScorePlus(2);
-        //    Destroy(collision.gameObject);
-        //    Destroy(gameObject);
-        //} else {
-        //    Destroy(gameObject);
-        //}
-        //if (tag.Equals("Platform")) {
-        //    Destroy(gameObject);
-        //}
+      
 
     }
 

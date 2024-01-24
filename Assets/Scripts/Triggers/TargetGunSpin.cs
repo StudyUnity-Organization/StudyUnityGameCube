@@ -2,28 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TargetGunSpin : MonoBehaviour
-{
+public class TargetGunSpin : MonoBehaviour {
     [SerializeField]
-    private int health = 10;   
+    private int health = 10;
 
-    public int _health = 10; //переменные названы неправильно из-за вопроса!
+    public int _health = 10;
 
     private void Awake() {
-        _health = health;       
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-    
-       // _health = health;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _health = health;
     }
 
     public void HitTarget(int damage) {

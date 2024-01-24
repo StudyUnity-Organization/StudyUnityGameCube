@@ -104,10 +104,9 @@ public class HeroController : MonoBehaviour {
     }
 
     public void TryAllowJump(string tag, bool allowJump) {
-        //Debug.Log(tag);
         if (tag.Equals("Platform")) {
-           _canJump = allowJump;
-        } 
+            _canJump = allowJump;
+        }
     }
 
     private void OnCollisionExit(Collision collision) {
@@ -140,11 +139,11 @@ public class HeroController : MonoBehaviour {
     }
 
     public void ShiftDisplacementCube() {
-       if(Input.GetKey(KeyCode.LeftShift)) {
+        if (Input.GetKey(KeyCode.LeftShift)) {
             _speed = shiftSpeed;
-       } else {
+        } else {
             _speed = speed;
-       }
+        }
 
     }
 

@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class AnimationStateController : MonoBehaviour
-{
+public class AnimationStateController : MonoBehaviour {
 
     private Animator animator;
     private bool isWalk;
@@ -21,7 +20,9 @@ public class AnimationStateController : MonoBehaviour
     private float _transitions = 0.5f;
 
     [SerializeField]
-    private Rigidbody[] AllRigidBody;
+    private Rigidbody[] allRigidBody;
+    [SerializeField]
+    private GameObject hips;
 
     public static AnimationStateController AnimatedHeroy => _animatedHeroy;
     private static AnimationStateController _animatedHeroy;
@@ -34,57 +35,31 @@ public class AnimationStateController : MonoBehaviour
             Destroy(this);
         }
 
-        for (int i = 0; i < AllRigidBody.Length; i++) {
-            AllRigidBody[i].isKinematic = true;
+        for (int i = 0; i < allRigidBody.Length; i++) {
+            allRigidBody[i].isKinematic = true;
         }
     }
 
 
-    private void Start()
-    {
+    private void Start() {
         animator = GetComponent<Animator>();
     }
 
 
-    private void Update()
-    {
+    private void Update() {
         isWalk = Input.GetKey(KeyCode.W);
         isRun = Input.GetKey(KeyCode.LeftShift);
         isJump = Input.GetKey(KeyCode.Space);
-        //isDeath = Input.GetKey(KeyCode.D);
         isAiming = Input.GetKey(KeyCode.Mouse1);
         if (Input.GetKey(KeyCode.O)) MakePhysical();
-        //Debug.Log("isWalk = " + isWalk);
-        //Debug.Log("isRun = " + isRun);
-        //Debug.Log("isJump = " + isJump);
-        //if (isWalk) {
-        //    if (isRun) {
-        //        animator.SetBool("isRun", true);
-        //    } else {
-        //        animator.SetBool("isRun", false);
-        //        animator.SetBool("isWalking", true);
-        //    }
-        //}
-
-        //if (isJump) {
-        //    animator.SetBool("isJump", true);
-        //} else {
-        //    animator.SetBool("isJump", false);
-        //}
-
-        //if (!isWalk) {
-        //    animator.SetBool("isWalking", false);
-        //    animator.SetBool("isRun", false);
-        //}
-
 
         if (isWalk) {
-           velocity += Time.deltaTime * acceleration;
+            velocity += Time.deltaTime * acceleration;
         }
 
         if (isWalk) {
             if (isRun) {
-                if (velocity > 1f){
+                if (velocity > 1f) {
                     velocity = 1f;
                 } else {
                     velocity += Time.deltaTime * acceleration;
@@ -101,27 +76,15 @@ public class AnimationStateController : MonoBehaviour
             velocity -= Time.deltaTime * deceleration;
         }
 
-        if (!isWalk && velocity > 0) {            
+        if (!isWalk && velocity > 0) {
             velocity -= Time.deltaTime * deceleration;
         }
 
         animator.SetFloat("Velocity", velocity);
 
 
-
-        if (isJump) {
-            animator.SetBool("isJump", true);
-        } else {
-            animator.SetBool("isJump", false);
-        }
-
-
-
-        if (isDeath) {
-            animator.SetBool("isDeath", true);
-        } else {
-            animator.SetBool("isDeath", false);
-        }
+        animator.SetBool("isJump", isJump);
+        animator.SetBool("isDeath", isDeath);
 
         if (isAiming) {
             animator.SetLayerWeight(animator.GetLayerIndex("Aiming"), 1f);
@@ -132,14 +95,17 @@ public class AnimationStateController : MonoBehaviour
     }
 
     public void MakePhysical() {
-     
-        for (int i = 0; i < AllRigidBody.Length; i++) {
-            AllRigidBody[i].isKinematic = false;
+        hips.SetActive(true);
+        for (int i = 0; i < allRigidBody.Length; i++) {
+            allRigidBody[i].isKinematic = false;
         }
-        isDeath = true;
-        isWalk = false;
-        isRun = false;
-        isJump = false;
-        //GetComponent<Animator>().enabled = false;
+
+        GetComponent<Animator>().enabled = false;
+
+        //isDeath = true;
+        //isWalk = false;
+        //isRun = false;
+        //isJump = false;
+
     }
 }
